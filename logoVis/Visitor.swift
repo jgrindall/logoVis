@@ -21,12 +21,6 @@ class Helper{
 	}
 }
 
-enum VisitError: Error {
-	case notFoundError(String)
-	case stopError(String)
-	case divZero(String)
-}
-
 struct Stack<Float> {
 	fileprivate var array: [Float] = []
 	
@@ -81,9 +75,6 @@ class Visitor {
 			if(self.isActive!()){
 				visitNode(node: node)
 			}
-			else{
-				break
-			}
 		}
 	}
 	
@@ -104,8 +95,10 @@ class Visitor {
 	
 	func visitexpression(node:JSON){
 		visitchildren(node:node)
-		let vals:[Float] = _stack.popForChildren(node: node)
-		_stack.push(Helper.add(vals: vals))
+		if(self.isActive!()){
+			let vals:[Float] = _stack.popForChildren(node: node)
+			_stack.push(Helper.add(vals: vals))
+		}
 	}
 	
 	func visitnumber(node:JSON){
@@ -257,8 +250,10 @@ class Visitor {
 
 	func visitmultexpression(node:JSON){
 		visitchildren(node:node)
-		let vals = _stack.popForChildren(node: node)
-		_stack.push(Helper.mult(vals: vals))
+		if(self.isActive!()){
+			let vals = _stack.popForChildren(node: node)
+			_stack.push(Helper.mult(vals: vals))
+		}
 	}
 	
 	func _visitNode(node:JSON){
@@ -424,7 +419,8 @@ class Visitor {
 		}
 	}
 	
-	func visitNode(node:JSON) {
+	func visitNode(node:JSON){
+		//print("visit", node);
 		if (isActive!()) {
 			_visitNode(node: node)
 		}

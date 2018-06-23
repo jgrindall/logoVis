@@ -1,15 +1,43 @@
 import UIKit
 import JavaScriptCore
 import WebKit
+import SceneKit
+import ReSwift
 
-class ViewController: UIViewController, UIWebViewDelegate {
+struct AppState: StateType {
+	var count = 0
+}
+
+struct AddAction: Action { }
+
+func appReducer(action: Action, state: AppState?) -> AppState {
+	var state = state ?? AppState()
+	
+	switch action {
+	case let addAction as AddAction: state.count += 1
+	default: break
+	}
+	
+	return state
+}
+
+let store = Store(
+	reducer: appReducer,
+	state: AppState(),
+	middleware: [])
+
+
+class ViewController: UIViewController, UIWebViewDelegate, SCNSceneRendererDelegate {
 
 	private var playButton:UIButton?
 	private var stopButton:UIButton?
 	private var testButton:UIButton?
 	private var procButton:UIButton?
 	private var webView:UIWebView
+	private var sceneView: SCNView?
 	private var prog:Program?
+	private var cubeNode:SCNNode?
+	private var robot:Float = 0.0
 	
 	required init?(coder aDecoder: NSCoder) {
 		self.webView = UIWebView(frame: CGRect(x: 10, y: 10, width: 10, height:10))
@@ -18,8 +46,53 @@ class ViewController: UIViewController, UIWebViewDelegate {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		self.init3d()
 		self.initWeb()
 		self.addUI()
+	}
+	
+	func init3d(){
+		sceneView = SCNView()
+		sceneView?.frame = CGRect(x: 0, y: 150, width: 650, height: 650)
+		let scene = SCNScene()
+		sceneView?.scene = scene
+		sceneView?.showsStatistics = true
+		
+		let camera = SCNCamera()
+		let cameraNode = SCNNode()
+		cameraNode.camera = camera
+		
+		cameraNode.position = SCNVector3(x: 0.0, y: 0.0, z: 3.0)
+		
+		let light = SCNLight()
+		light.type = SCNLight.LightType.omni
+		let lightNode = SCNNode()
+		lightNode.light = light
+		lightNode.position = SCNVector3(x: 1.5, y: 1.5, z: 1.5)
+		
+		let cubeGeometry = SCNBox(width: 1.5, height: 1.5, length: 1.0, chamferRadius: 0.1)
+		self.cubeNode = SCNNode(geometry: cubeGeometry)
+		
+		cubeGeometry.firstMaterial!.diffuse.contents = UIColor.green
+		
+
+		cubeNode?.rotation = SCNVector4(0.0, 1.0, 2.0, 0.0)
+		
+		//scene.rootNode.addChildNode(lightNode)
+		scene.rootNode.addChildNode(cameraNode)
+		scene.rootNode.addChildNode(self.cubeNode!)
+		
+		sceneView!.backgroundColor = UIColor.red
+		scene.rootNode.addChildNode(cameraNode)
+		self.view.addSubview(sceneView!)
+		
+		sceneView!.delegate = self
+		sceneView!.isPlaying = true
+	}
+	
+	func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
+		cubeNode?.position.x = robot
+		cubeNode?.rotation = SCNVector4(0, 0.5, 1, robot)
 	}
 	
 	func addUI(){
@@ -104,7 +177,10 @@ class ViewController: UIViewController, UIWebViewDelegate {
 		self.prog = Program()
 		self.prog?.receive = {
 			(s:String, f:Float) -> Void in
-			print("view controller receives", s, f)
+			self.robot = self.robot + 0.005
+			if(self.robot > 2.0){
+				self.robot = -2.0
+			}
 		}
 		self.prog?.start(tree: dictionary)
 	}
@@ -112,7 +188,7 @@ class ViewController: UIViewController, UIWebViewDelegate {
 	func initUIWeb(){
 		do {
 			self.webView.delegate = self
-			let htmlPath:String = Bundle.main.path(forResource: "index3", ofType: "html")!
+			let htmlPath:String = Bundle.main.path(forResource: "index", ofType: "html")!
 			let contents:String = try String(contentsOfFile: htmlPath)
 			let url:URL = URL(fileURLWithPath: htmlPath)
 			self.webView.loadHTMLString(contents, baseURL: url)

@@ -12,10 +12,11 @@
 		5216A89A20D679AA00979360 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5216A89820D679AA00979360 /* Main.storyboard */; };
 		5216A89C20D679AA00979360 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5216A89B20D679AA00979360 /* Assets.xcassets */; };
 		5216A89F20D679AA00979360 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5216A89D20D679AA00979360 /* LaunchScreen.storyboard */; };
-		5216A8B320D679EF00979360 /* index3.html in Resources */ = {isa = PBXBuildFile; fileRef = 5216A8A920D679EF00979360 /* index3.html */; };
 		5216A8B720D679EF00979360 /* Parser.js in Resources */ = {isa = PBXBuildFile; fileRef = 5216A8AD20D679EF00979360 /* Parser.js */; };
 		5216A8BD20D67C7B00979360 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5216A8BC20D67C7B00979360 /* JavaScriptCore.framework */; };
-		5216A8BF20D68AF600979360 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5216A8BE20D68AF600979360 /* WebKit.framework */; };
+		5248444420DEAFB6007A7545 /* SceneKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5248444320DEAFB6007A7545 /* SceneKit.framework */; };
+		5248444620DEC0CA007A7545 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 5248444520DEC0CA007A7545 /* index.html */; };
+		5248444820DEC30F007A7545 /* ReSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5248444720DEC30F007A7545 /* ReSwift.framework */; };
 		528BB01820DE4724005802A1 /* Program.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528BB01720DE4724005802A1 /* Program.swift */; };
 		52ABB81C20D6FED100629123 /* Visitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52ABB81B20D6FED100629123 /* Visitor.swift */; };
 		52E6391120DD7A210015FC3D /* SymTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E6391020DD7A210015FC3D /* SymTable.swift */; };
@@ -29,10 +30,12 @@
 		5216A89B20D679AA00979360 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5216A89E20D679AA00979360 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5216A8A020D679AA00979360 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5216A8A920D679EF00979360 /* index3.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index3.html; sourceTree = "<group>"; };
 		5216A8AD20D679EF00979360 /* Parser.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Parser.js; sourceTree = "<group>"; };
 		5216A8BC20D67C7B00979360 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		5216A8BE20D68AF600979360 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		5248444320DEAFB6007A7545 /* SceneKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SceneKit.framework; path = System/Library/Frameworks/SceneKit.framework; sourceTree = SDKROOT; };
+		5248444520DEC0CA007A7545 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
+		5248444720DEC30F007A7545 /* ReSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReSwift.framework; path = Carthage/Build/iOS/ReSwift.framework; sourceTree = "<group>"; };
 		528BB01720DE4724005802A1 /* Program.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Program.swift; sourceTree = "<group>"; };
 		52ABB81B20D6FED100629123 /* Visitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Visitor.swift; sourceTree = "<group>"; };
 		52E6391020DD7A210015FC3D /* SymTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SymTable.swift; sourceTree = "<group>"; };
@@ -43,7 +46,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5216A8BF20D68AF600979360 /* WebKit.framework in Frameworks */,
+				5248444820DEC30F007A7545 /* ReSwift.framework in Frameworks */,
+				5248444420DEAFB6007A7545 /* SceneKit.framework in Frameworks */,
 				5216A8BD20D67C7B00979360 /* JavaScriptCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -88,7 +92,7 @@
 		5216A8A620D679EF00979360 /* assets */ = {
 			isa = PBXGroup;
 			children = (
-				5216A8A920D679EF00979360 /* index3.html */,
+				5248444520DEC0CA007A7545 /* index.html */,
 				5216A8AD20D679EF00979360 /* Parser.js */,
 			);
 			path = assets;
@@ -97,6 +101,8 @@
 		5216A8BB20D67C7B00979360 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5248444720DEC30F007A7545 /* ReSwift.framework */,
+				5248444320DEAFB6007A7545 /* SceneKit.framework */,
 				5216A8BE20D68AF600979360 /* WebKit.framework */,
 				5216A8BC20D67C7B00979360 /* JavaScriptCore.framework */,
 			);
@@ -113,6 +119,7 @@
 				5216A88D20D679AA00979360 /* Sources */,
 				5216A88E20D679AA00979360 /* Frameworks */,
 				5216A88F20D679AA00979360 /* Resources */,
+				5248444920DEC35C007A7545 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -165,12 +172,29 @@
 				5216A89F20D679AA00979360 /* LaunchScreen.storyboard in Resources */,
 				5216A8B720D679EF00979360 /* Parser.js in Resources */,
 				5216A89C20D679AA00979360 /* Assets.xcassets in Resources */,
+				5248444620DEC0CA007A7545 /* index.html in Resources */,
 				5216A89A20D679AA00979360 /* Main.storyboard in Resources */,
-				5216A8B320D679EF00979360 /* index3.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		5248444920DEC35C007A7545 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/ReSwift.framework",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		5216A88D20D679AA00979360 /* Sources */ = {
@@ -320,6 +344,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WDBW628V64;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = logoVis/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -336,6 +364,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WDBW628V64;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = logoVis/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
