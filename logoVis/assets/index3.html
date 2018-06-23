@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+
+<html>
+	
+	<head>
+		
+		<script src="Parser.js"></script>
+		
+		<script>
+		
+			iosBridge = {};
+			
+			var draw = function(s){
+				iosBridge.callback(JSON.stringify(Parser.parse(s)));
+			};
+		
+		</script>
+	
+	</head>
+	
+	<body>
+		
+	</body>
+	
+</html>
+
