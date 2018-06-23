@@ -4,7 +4,7 @@ import WebKit
 
 class Program {
 	
-	public var receive: ((_ f:Float) -> Void)?
+	public var receive: ((_ s:String, _ f:Float) -> Void)?
 	private var item: DispatchWorkItem!
 	private var _cancelled:Bool = false
 	
@@ -16,20 +16,16 @@ class Program {
 	}
 	
 	public func start(tree:JSON){
-		print("start")
 		_cancelled = false
 		let queue = DispatchQueue.global()
 		item = DispatchWorkItem { [weak self] in
-			print("START")
 			let v:Visitor = Visitor()
 			v.receive = {
-				(f:Float) -> Void in
-				print("cb", f)
-				self?.receive!(f)
+				(s:String, f:Float) -> Void in
+				self?.receive!(s, f)
 			}
-			v.isCancelled = {
-				print("cancelled?", self?._cancelled, self?.item.isCancelled)
-				return (self!._cancelled || (self?.item.isCancelled)!)
+			v.isActive = {
+				return !(self!._cancelled || (self?.item.isCancelled)!)
 			}
 			v.start(tree: tree)
 		}

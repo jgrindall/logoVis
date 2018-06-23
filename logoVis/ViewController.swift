@@ -46,28 +46,6 @@ class ViewController: UIViewController, UIWebViewDelegate {
 		self.view.addSubview(testButton!)
 	}
 	
-	func testDispatchItems() {
-		let queue = DispatchQueue.global()
-		var item: DispatchWorkItem!
-		var i:Int = 0;
-		item = DispatchWorkItem { [weak self] in
-			while(true){
-				if item.isCancelled { break }
-				self?.heavyWork(a:i)
-				i = i + 1
-			}
-			item = nil
-		}
-		queue.async(execute: item)
-		queue.asyncAfter(deadline: .now() + 3) { [weak item] in
-			item?.cancel()
-		}
-	}
-	
-	func heavyWork(a:Int){
-		print(a)
-	}
-	
 	@objc private func _playTapped(sender: UIButton!) {
 		let r:Int = Int(arc4random_uniform(1000) + 100)
 		let s:String = "rpt 55555555 [ fd " + String(r) + "]"
@@ -88,7 +66,7 @@ class ViewController: UIViewController, UIWebViewDelegate {
 	}
 	
 	@objc private func _stopTapped(sender: UIButton!) {
-		
+		self.prog?.cancel()
 	}
 	
 	@objc private func _testTapped(sender: UIButton!) {
@@ -96,7 +74,7 @@ class ViewController: UIViewController, UIWebViewDelegate {
 	}
 	
 	@objc private func _procTapped(sender: UIButton!) {
-		self.testDispatchItems()
+		
 	}
 	
 	func webViewDidStartLoad(_ webView: UIWebView) {
@@ -124,17 +102,11 @@ class ViewController: UIViewController, UIWebViewDelegate {
 	
 	func visit(dictionary:JSON){
 		self.prog = Program()
-		
 		self.prog?.receive = {
-			(f:Float) -> Void in
-			print("view controller receives", f)
+			(s:String, f:Float) -> Void in
+			print("view controller receives", s, f)
 		}
-		
 		self.prog?.start(tree: dictionary)
-		
-		DispatchQueue.main.asyncAfter(deadline: .now() + 2.0, execute: {
-			self.prog?.cancel()
-		})
 	}
 	
 	func initUIWeb(){

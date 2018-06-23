@@ -4,6 +4,23 @@ import WebKit
 
 typealias JSON = [String: Any]
 
+class Helper{
+	static func mult(vals:[Float]) -> Float {
+		var num:Float = 1.0
+		for val in vals {
+			num = num * val
+		}
+		return num
+	}
+	static func add(vals:[Float]) -> Float {
+		var num:Float = 0.0
+		for val in vals {
+			num = num + val
+		}
+		return num
+	}
+}
+
 enum VisitError: Error {
 	case notFoundError(String)
 	case stopError(String)
@@ -21,6 +38,20 @@ struct Stack<Float> {
 		return array.popLast()
 	}
 	
+	mutating func popForChildren(node:JSON) -> [Float]{
+		let ch:[JSON] = (node["children"] as! [JSON])
+		return self.popN(n: ch.count)
+	}
+	
+	mutating func popN(n:Int) -> [Float]{
+		var vals:[Float] = [ ];
+		for _ in 0..<n{
+			let num:Float = self.pop()!
+			vals.append(num)
+		}
+		return vals
+	}
+	
 	func peek() -> Float? {
 		return array.last
 	}
@@ -28,8 +59,8 @@ struct Stack<Float> {
 
 class Visitor {
 	
-	public var receive: ((_ f:Float) -> Void)?
-	public var isCancelled:(() -> Bool)?
+	public var receive: ((_ s:String, _ f:Float) -> Void)?
+	public var isActive:(() -> Bool)?
 	private var _stack:Stack<Float>
 	private var _symTable:SymTable
 	
@@ -40,18 +71,18 @@ class Visitor {
 	
 	func visitstart(node:JSON){
 		_symTable.enterBlock()
-		visitchildren(node:node)
+		if(self.isActive!()){
+			visitchildren(node:node)
+		}
 	}
 	
 	func visitchildren(node:JSON){
-		if(!self.isCancelled!()){
-			(node["children"] as! [JSON]).forEach { node in
-				if(!self.isCancelled!()){
-					visitNode(node: node)
-				}
-				else{
-					return
-				}
+		for node in (node["children"] as! [JSON]) {
+			if(self.isActive!()){
+				visitNode(node: node)
+			}
+			else{
+				break
 			}
 		}
 	}
@@ -61,7 +92,7 @@ class Visitor {
 		visitNode(node:ch[0])
 		let num:Int = Int(round(_stack.pop()!))
 		for i in 0...num{
-			if(!self.isCancelled!()){
+			if(self.isActive!()){
 				_symTable.add(name: "repcount", val: Float(i))
 				visitNode(node:ch[1])
 			}
@@ -73,16 +104,8 @@ class Visitor {
 	
 	func visitexpression(node:JSON){
 		visitchildren(node:node)
-		var num:Float = 0.0;
-		(node["children"] as! [JSON]).forEach { node in
-			if(!self.isCancelled!()){
-				num += _stack.pop()!
-			}
-			else{
-				return
-			}
-		}
-		_stack.push(num);
+		let vals:[Float] = _stack.popForChildren(node: node)
+		_stack.push(Helper.add(vals: vals))
 	}
 	
 	func visitnumber(node:JSON){
@@ -117,23 +140,19 @@ class Visitor {
 		let name = node["name"] as! String
 		let argsNode = node["args"] as! JSON
 		let statementsNode = node["stmts"] as! JSON
-		_symTable.addFunction(name: name, argsNode: argsNode, statementsNode: statementsNode)
+		if(self.isActive!()){
+			_symTable.addFunction(name: name, argsNode: argsNode, statementsNode: statementsNode)
+		}
 	}
 	
 	func executeFunction(f:LogoFunction){
-		var vals:[Float] = [ ];
 		let numArgs:Int = f.getNumArgsRequired()
-		for _ in 0..<numArgs{
-			let num:Float = _stack.pop()!
-			vals.append(num)
-		}
+		let vals = _stack.popN(n:numArgs)
 		let argsNode:JSON = f.getArgs()
 		let ch:[JSON] = argsNode["children"] as! [JSON]
-		var argNode:JSON
 		var varName:String
 		for i in 0..<numArgs{
-			argNode = ch[i] as JSON
-			varName = argNode["name"] as! String
+			varName = ch[i]["name"] as! String
 			_symTable.add(name: varName, val: vals[numArgs - 1 - i])
 		}
 		return visitNode(node:f.getStatements())
@@ -184,31 +203,20 @@ class Visitor {
 	
 	func visitnegate(node:JSON){
 		visitchildren(node:node)
-		let num:Float = _stack.pop()!
-		_stack.push(-1.0*num)
+		_stack.push(-1.0*_stack.pop()!)
 	}
 	
 	func visittimesordivterms(node:JSON){
 		visitchildren(node:node)
-		var num:Float = 1.0
-		let ch:[JSON] = node["children"] as! [JSON]
-		ch.forEach { node in
-			if(!self.isCancelled!()){
-				let n:Float = _stack.pop()!
-				num *= n
-			}
-			else{
-				return
-			}
-		}
-		_stack.push(num);
+		let vals = _stack.popForChildren(node:node)
+		_stack.push(Helper.mult(vals: vals));
 	}
 	
 	func visitfdstmt(node:JSON){
 		visitchildren(node:node)
-		if(!self.isCancelled!()){
+		if(self.isActive!()){
 			if let receive = self.receive {
-				receive(_stack.pop()!)
+				receive("fd", _stack.pop()!)
 			}
 		}
 	}
@@ -249,13 +257,8 @@ class Visitor {
 
 	func visitmultexpression(node:JSON){
 		visitchildren(node:node)
-		var num:Float = 1.0
-		(node["children"] as! [JSON]).forEach { node in
-			if(!self.isCancelled!()){
-				num *= _stack.pop()!
-			}
-		}
-		_stack.push(num)
+		let vals = _stack.popForChildren(node: node)
+		_stack.push(Helper.mult(vals: vals))
 	}
 	
 	func _visitNode(node:JSON){
@@ -422,17 +425,20 @@ class Visitor {
 	}
 	
 	func visitNode(node:JSON) {
-		if (isCancelled!()) {
-			return;
+		if (isActive!()) {
+			_visitNode(node: node)
 		}
 		else{
-			_visitNode(node: node)
+			return;
 		}
 	}
 	
 	public func start(tree:JSON){
 		visitNode(node:tree)
 		print("done")
+		if let receive = self.receive {
+			receive("done", 0)
+		}
 		//setupPatches();
 		//setupTargets();
 		//runDaemons();
