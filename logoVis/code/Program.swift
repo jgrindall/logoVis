@@ -4,7 +4,7 @@ import WebKit
 
 class Program {
 	
-	public var receive: ((_ s:String, _ f:Float) -> Void)?
+	public var receive: ((_ id:String, _ s:String, _ f:Float) -> Void)?
 	private var item: DispatchWorkItem!
 	private var _cancelled:Bool = false
 	
@@ -21,8 +21,8 @@ class Program {
 		item = DispatchWorkItem { [weak self] in
 			let v:Visitor = Visitor()
 			v.receive = {
-				(s:String, f:Float) -> Void in
-				self?.receive!(s, f)
+				(id:String, s:String, f:Float) -> Void in
+				self?.receive!(id, s, f)
 			}
 			v.isActive = {
 				return !(self!._cancelled || (self?.item.isCancelled)!)

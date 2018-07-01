@@ -21,7 +21,7 @@ private class Helper{
 
 class Visitor {
 	
-	public var receive: ((_ s:String, _ f:Float) -> Void)?
+	public var receive: ((_ id:String, _ s:String, _ f:Float) -> Void)?
 	public var isActive:(() -> Bool)?
 	private var _stack:Stack<Float>
 	private var _symTable:SymTable
@@ -35,14 +35,14 @@ class Visitor {
 		_patches = []
 	}
 	
-	func visitstart(node:JSON){
+	private func visitstart(node:JSON){
 		_symTable.enterBlock()
 		if(self.isActive!()){
 			visitchildren(node:node)
 		}
 	}
 	
-	func visitchildren(node:JSON){
+	private func visitchildren(node:JSON){
 		for node in (node["children"] as! [JSON]) {
 			if(self.isActive!()){
 				visitNode(node: node)
@@ -50,7 +50,7 @@ class Visitor {
 		}
 	}
 	
-	func visitrptstmt(node:JSON){
+	private func visitrptstmt(node:JSON){
 		let ch:[JSON] = node["children"] as! [JSON]
 		visitNode(node:ch[0])
 		let num:Int = Int(round(_stack.pop()!))
@@ -65,7 +65,7 @@ class Visitor {
 		}
 	}
 	
-	func visitrpttargetsstmt(node:JSON){
+	private func visitrpttargetsstmt(node:JSON){
 		let ch:[JSON] = node["children"] as! [JSON]
 		let node = ch[0]
 		for target in _targets{
@@ -74,7 +74,7 @@ class Visitor {
 		}
 	}
 	
-	func visitexpression(node:JSON){
+	private func visitexpression(node:JSON){
 		visitchildren(node:node)
 		if(self.isActive!()){
 			let vals:[Float] = _stack.popForChildren(node: node)
@@ -82,7 +82,7 @@ class Visitor {
 		}
 	}
 	
-	func visitnumber(node:JSON){
+	private func visitnumber(node:JSON){
 		if let strVal = (node["value"] as? String) {
 			print("its a string")
 			if(strVal == "random"){
@@ -94,7 +94,7 @@ class Visitor {
 		}
 	}
 	
-	func visitdivterm(node:JSON){
+	private func visitdivterm(node:JSON){
 		visitchildren(node:node)
 		let num:Float = _stack.pop()!
 		if(num == 0){
@@ -105,12 +105,12 @@ class Visitor {
 		}
 	}
 	
-	func visitstopstmt(node:JSON){
+	private func visitstopstmt(node:JSON){
 		print("stop")
 		//throw VisitError.stopError("stop")
 	}
 	
-	func visitdefinefnstmt(node:JSON){
+	private func visitdefinefnstmt(node:JSON){
 		let name = node["name"] as! String
 		let argsNode = node["args"] as! JSON
 		let statementsNode = node["stmts"] as! JSON
@@ -119,7 +119,7 @@ class Visitor {
 		}
 	}
 	
-	func executeFunctions(fs:[LogoFunction]){
+	private func executeFunctions(fs:[LogoFunction]){
 		for f:LogoFunction in fs {
 			if(self.isActive!()){
 				executeFunction(f: f)
@@ -127,7 +127,7 @@ class Visitor {
 		}
 	}
 	
-	func executeFunction(f:LogoFunction){
+	private func executeFunction(f:LogoFunction){
 		let numArgs:Int = f.getNumArgsRequired()
 		let vals = _stack.popN(n:numArgs)
 		let argsNode:JSON = f.getArgs()
@@ -140,7 +140,7 @@ class Visitor {
 		return visitNode(node:f.getStatements())
 	}
 	
-	func visitcallfnstmt(node:JSON){
+	private func visitcallfnstmt(node:JSON){
 		let name:String = node["name"] as! String
 		if(_symTable.hasFunction(s: name)){
 			let f:LogoFunction = _symTable.getFunctionByName(s:name)!
@@ -155,14 +155,14 @@ class Visitor {
 		}
 	}
 	
-	func visitmakestmt(node:JSON){
+	private func visitmakestmt(node:JSON){
 		let ch:[JSON] = node["children"] as! [JSON]
 		let name:String = ch[0]["name"] as! String
 		visitNode(node:ch[1])
 		_symTable.add(name: name, val: _stack.pop()!)
 	}
 	
-	func visitusevar(node:JSON){
+	private func visitusevar(node:JSON){
 		let num:Float? = _symTable.get(name:node["name"] as! String);
 		if let floatVal = (num) {
 			_stack.push(floatVal)
@@ -172,7 +172,7 @@ class Visitor {
 		}
 	}
 	
-	func getPatchVar(name:String) -> Float{
+	private func getPatchVar(name:String) -> Float{
 		let player:PScenePlayer = _symTable.getPlayer()
 		let pos:CGPoint = player.getPos()
 		let i:Int = Int(pos.x)
@@ -180,7 +180,7 @@ class Visitor {
 		return patch.getVar(name:name)
 	};
 	
-	func setPatchVar(name:String, val:Float){
+	private func setPatchVar(name:String, val:Float){
 		let player:PScenePlayer = _symTable.getPlayer()
 		let pos:CGPoint = player.getPos()
 		let i:Int = Int(pos.x)
@@ -188,94 +188,94 @@ class Visitor {
 		patch.setVar(name: name, val: val)
 	};
 	
-	func visitgetvarstmt(node:JSON){
+	private func visitgetvarstmt(node:JSON){
 		let player:PScenePlayer = _symTable.getPlayer()
 		let val = player.getVar(name: node["name"] as! String)
 		_stack.push(val)
 	}
 	
-	func visitsetvarstmt(node:JSON){
+	private func visitsetvarstmt(node:JSON){
 		visitchildren(node:node)
 		let player = _symTable.getPlayer()
 		let val:Float = _stack.pop()!
 		player.setVar(name: node["name"] as! String, val: val)
 	}
 	
-	func visitsetpatchvarstmt(node:JSON){
+	private func visitsetpatchvarstmt(node:JSON){
 		visitchildren(node:node)
 		let val:Float = _stack.pop()!
 		setPatchVar(name: node["name"] as! String, val:val)
 	}
 	
-	func visitgetpatchvarstmt(node:JSON){
+	private func visitgetpatchvarstmt(node:JSON){
 		_stack.push(getPatchVar(name: node["name"] as! String))
 	}
 	
-	func visitminusexpression(node:JSON){
+	private func visitminusexpression(node:JSON){
 		visitchildren(node:node)
 		let num:Float = _stack.pop()!
 		_stack.push(-1.0*num)
 	}
 	
-	func visitnegate(node:JSON){
+	private func visitnegate(node:JSON){
 		visitchildren(node:node)
 		_stack.push(-1.0*_stack.pop()!)
 	}
 	
-	func visittimesordivterms(node:JSON){
+	private func visittimesordivterms(node:JSON){
 		visitchildren(node:node)
 		let vals = _stack.popForChildren(node:node)
 		_stack.push(Helper.mult(vals: vals))
 	}
 	
-	func visitfdstmt(node:JSON){
+	private func visitfdstmt(node:JSON){
 		visitchildren(node:node)
 		if(self.isActive!()){
 			if let receive = self.receive {
-				receive("fd", _stack.pop()!)
+				receive(_symTable.getPlayer().getID(), "fd", _stack.pop()!)
 			}
 		}
 	}
 	
-	func visitbkstmt(node:JSON){
+	private func visitbkstmt(node:JSON){
 		visitchildren(node:node)
 		print("BK:", _stack.pop()!)
 	}
 	
-	func visitrtstmt(node:JSON){
+	private func visitrtstmt(node:JSON){
 		visitchildren(node:node)
 		print("RT:", _stack.pop()!)
 	}
 	
-	func visitltstmt(node:JSON){
+	private func visitltstmt(node:JSON){
 		visitchildren(node:node)
 		print("LT:", _stack.pop()!)
 	}
 	
-	func visitarcrtstmt(node:JSON){
+	private func visitarcrtstmt(node:JSON){
 		visitchildren(node:node)
 		let amount1 = _stack.pop()!
 		let amount2 = _stack.pop()!
 		print("ARCRT:", "radius", amount1, "angle", amount2)
 	}
 	
-	func visitactivatedaemonstmt(node:JSON){
+	private func visitactivatedaemonstmt(node:JSON){
 		_symTable.activateDaemon(name: node["name"] as! String)
 	}
 	
-	func visitarcltstmt(node:JSON){
+	private func visitarcltstmt(node:JSON){
 		visitchildren(node:node)
 		let amount1 = _stack.pop()!, amount2 = _stack.pop()!
 		print("ARCLT:", "radius", amount1, "angle", amount2)
 	}
 	
-	func visitarcstmt(node:JSON){
+	private func visitarcstmt(node:JSON){
 		visitchildren(node:node)
 		let amount1 = _stack.pop()!, amount2 = _stack.pop()!
 		print("ARC:", "radius", amount1, "angle", amount2)
 	}
 
-	func visitmultexpression(node:JSON){
+	private func visitmultexpression(node:JSON){
 		visitchildren(node:node)
 		if(self.isActive!()){
 			let vals = _stack.popForChildren(node: node)
@@ -283,7 +283,7 @@ class Visitor {
 		}
 	}
 	
-	func _visitNode(node:JSON){
+	private func _visitNode(node:JSON){
 		let t:String = node["type"] as! String
 		if(t=="start"){
 			return visitstart(node:node)
@@ -446,7 +446,7 @@ class Visitor {
 		}
 	}
 	
-	func visitNode(node:JSON){
+	private func visitNode(node:JSON){
 		if (isActive!()) {
 			_visitNode(node: node)
 		}
@@ -455,21 +455,53 @@ class Visitor {
 		}
 	}
 	
-	func setupTargets(){
+	private func setupTargets(){
 		for target:Target in _targets {
 			if (isActive!()) {
 				_symTable.setPlayer(player:target)
-				executeFunctions(fs: _symTable.getSetupsForType(type: target.getType()))
+				let fn:LogoFunction = _symTable.getSetupForType(type: target.getType())
+				executeFunction(f: fn)
 			}
 		}
 	}
 	
-	func setupPatches(){
+	private func setupPatches(){
 		for patch:Patch in _patches {
 			if (isActive!()) {
 				_symTable.setPlayer(player:patch)
-				executeFunctions(fs: _symTable.getSetupsForType(type:"patch"))
+				let f = _symTable.getSetupForType(type: "patch")
+				executeFunction(f: f)
 			}
+		}
+	}
+	
+	private func tickTargets(){
+		for target in _targets{
+			if (isActive!()) {
+				let type:String = target.getType()
+				let fs = _symTable.getActiveDaemonsForType(type: type)
+				_symTable.setPlayer(player: target)
+				executeFunctions(fs: fs)
+			}
+		}
+	};
+	private func tickPatches(){
+		for patch in _patches{
+			if (isActive!()) {
+				let fs = _symTable.getActiveDaemonsForType(type: "patch")
+				_symTable.setPlayer(player: patch)
+				executeFunctions(fs: fs)
+			}
+		}
+	};
+	
+	private func runDaemons(){
+		var active = isActive!()
+		while(active){
+			tickTargets()
+			active = isActive!()
+			tickPatches()
+			active = isActive!()
 		}
 	}
 	
@@ -479,13 +511,12 @@ class Visitor {
 		visitNode(node:tree)
 		print("done")
 		if let receive = self.receive {
-			receive("done", 0)
+			receive("done", "done", 0)
 		}
 		setupPatches()
 		setupTargets()
-		//runDaemons();
+		runDaemons()
 	}
-	
 
 }
 

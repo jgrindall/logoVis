@@ -13,11 +13,26 @@ class ViewController: UIViewController, UIWebViewDelegate, SCNSceneRendererDeleg
 	private var webView:UIWebView
 	private var sceneView: SCNView?
 	private var prog:Program?
-	private var cubeNode:SCNNode?
-	private var robot:Float = 0.0
+	private var cubeNode0:SCNNode?
+	private var cubeNode1:SCNNode?
+	private var cubeNode2:SCNNode?
+	private var r0:Float = 0.0
+	private var r1:Float = 0.0
+	private var r2:Float = 0.0
+	private var _targets:[Target]
+	private var _patches:[Patch]
 	
 	required init?(coder aDecoder: NSCoder) {
-		self.webView = UIWebView(frame: CGRect(x: 10, y: 10, width: 10, height:10))
+		self.webView = UIWebView(frame: CGRect(x: 0, y: 0, width: 0, height:0))
+		_targets = [
+			Target(type: "robot", pos: CGPoint(x: 0.0, y: 0.0)),
+			Target(type: "robot", pos: CGPoint(x: 0.0, y: 0.0))
+		]
+		_patches = [
+			Patch(),
+			Patch(),
+			Patch()
+		]
 		super.init(nibName: nil, bundle: nil)
 	}
 	
@@ -44,7 +59,6 @@ class ViewController: UIViewController, UIWebViewDelegate, SCNSceneRendererDeleg
 		let camera = SCNCamera()
 		let cameraNode = SCNNode()
 		cameraNode.camera = camera
-		
 		cameraNode.position = SCNVector3(x: 0.0, y: 0.0, z: 3.0)
 		
 		let light = SCNLight()
@@ -54,16 +68,15 @@ class ViewController: UIViewController, UIWebViewDelegate, SCNSceneRendererDeleg
 		lightNode.position = SCNVector3(x: 1.5, y: 1.5, z: 1.5)
 		
 		let cubeGeometry = SCNBox(width: 1.5, height: 1.5, length: 1.0, chamferRadius: 0.1)
-		self.cubeNode = SCNNode(geometry: cubeGeometry)
-		
+		self.cubeNode0 = SCNNode(geometry: cubeGeometry)
+		self.cubeNode1 = SCNNode(geometry: cubeGeometry)
+		self.cubeNode2 = SCNNode(geometry: cubeGeometry)
 		cubeGeometry.firstMaterial!.diffuse.contents = UIColor.green
-		
 
-		cubeNode?.rotation = SCNVector4(0.0, 1.0, 2.0, 0.0)
-		
-		//scene.rootNode.addChildNode(lightNode)
 		scene.rootNode.addChildNode(cameraNode)
-		scene.rootNode.addChildNode(self.cubeNode!)
+		scene.rootNode.addChildNode(self.cubeNode0!)
+		scene.rootNode.addChildNode(self.cubeNode1!)
+		scene.rootNode.addChildNode(self.cubeNode2!)
 		
 		sceneView!.backgroundColor = UIColor.red
 		scene.rootNode.addChildNode(cameraNode)
@@ -74,8 +87,12 @@ class ViewController: UIViewController, UIWebViewDelegate, SCNSceneRendererDeleg
 	}
 	
 	func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
-		cubeNode?.position.x = robot
-		cubeNode?.rotation = SCNVector4(0, 0.5, 1, robot)
+		cubeNode0?.position.x = r0
+		cubeNode0?.rotation = SCNVector4(0, 0.5, 1, r0)
+		cubeNode1?.position.x = r1
+		cubeNode1?.rotation = SCNVector4(0, 0.5, 1, r1)
+		cubeNode2?.position.x = r2
+		cubeNode2?.rotation = SCNVector4(0, 0.5, 1, r2)
 	}
 	
 	func addUI(){
@@ -103,23 +120,28 @@ class ViewController: UIViewController, UIWebViewDelegate, SCNSceneRendererDeleg
 	}
 	
 	@objc private func _playTapped(sender: UIButton!) {
-		let r:Int = Int(arc4random_uniform(1000) + 100)
-		let s:String = "rpt 55555555 [ fd " + String(r) + "]"
-		print(s)
+		var s:String = "to test fd 0.01 end"
+		s = s + "to setup-rabbit rt 45 activate-daemon daemon-rabbit-eat activate-daemon daemon-rabbit-walk end"
+		s = s + "to setup-robot set-var age 0 activate-daemon daemon-robot-walk end"
+		s = s + "to setup-patch set-var grass 0.3 activate-daemon daemon-patch-grow end"
+		s = s + "to daemon-robot-walk test rt 0.05 end"
+		s = s + "to daemon-rabbit-walk fd 0.02 rt 0.05 end"
+		s = s + "to daemon-rabbit-eat set-patch-var grass 0 end"
+		s = s + "to daemon-patch-grow set-var grass (get-var grass + 0.01) end"
 		self.run(fnName:"draw", arg:s)
 		store.dispatch(StatusAction(status: "123"))
 	}
 	
-	public func run(fnName:String) {
-		let s:String = fnName + "()"
-		print("stringByEvaluatingJavaScript", s)
+	private func _eval(s:String){
 		self.webView.stringByEvaluatingJavaScript(from: s)
 	}
 	
+	public func run(fnName:String) {
+		_eval(s:fnName + "()")
+	}
+	
 	public func run(fnName:String, arg:String) {
-		let s:String = fnName + "(\'" + arg + "\')"
-		print("stringByEvaluatingJavaScript", s)
-		self.webView.stringByEvaluatingJavaScript(from: s)
+		_eval(s:fnName + "(\'" + arg + "\')")
 	}
 	
 	@objc private func _stopTapped(sender: UIButton!) {
@@ -150,7 +172,6 @@ class ViewController: UIViewController, UIWebViewDelegate, SCNSceneRendererDeleg
 		let iosCallbackFunction: @convention(block) (String) -> Void = { (msg: String) in
 			let jsonData = msg.data(using: .utf8)
 			let dictionary:JSON = try! JSONSerialization.jsonObject(with: jsonData!, options: .mutableLeaves) as! JSON
-			print(dictionary)
 			self.visit(dictionary:dictionary)
 		}
 		ctx.objectForKeyedSubscript("console").setObject(unsafeBitCast(logFunction, to: AnyObject.self), forKeyedSubscript: "log" as NSCopying & NSObjectProtocol)
@@ -160,25 +181,15 @@ class ViewController: UIViewController, UIWebViewDelegate, SCNSceneRendererDeleg
 	func visit(dictionary:JSON){
 		self.prog = Program()
 		self.prog?.receive = {
-			(s:String, f:Float) -> Void in
-			self.robot = self.robot + 0.005
-			if(self.robot > 2.0){
-				self.robot = -2.0
+			(id:String, s:String, f:Float) -> Void in
+			print(id, s, f)
+			self.r0 = self.r0 + 0.005
+			if(self.r0 > 2.0){
+				self.r0 = -2.0
 			}
 		}
-		let targets = [
-			Target(),
-			Target(),
-			Target()
-		]
 		
-		let patches = [
-			Patch(),
-			Patch(),
-			Patch()
-		]
-		
-		self.prog?.start(tree: dictionary, targets:targets, patches:patches)
+		self.prog?.start(tree: dictionary, targets:_targets, patches:_patches)
 	}
 	
 	func initUIWeb(){

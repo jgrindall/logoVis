@@ -20,16 +20,16 @@
 		5248444420DEAFB6007A7545 /* SceneKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5248444320DEAFB6007A7545 /* SceneKit.framework */; };
 		5248444620DEC0CA007A7545 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 5248444520DEC0CA007A7545 /* index.html */; };
 		5248444820DEC30F007A7545 /* ReSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5248444720DEC30F007A7545 /* ReSwift.framework */; };
-		528BB01820DE4724005802A1 /* Program.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528BB01720DE4724005802A1 /* Program.swift */; };
-		52ABB81C20D6FED100629123 /* Visitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52ABB81B20D6FED100629123 /* Visitor.swift */; };
-		52B559D420E9067100B1DDF3 /* Target.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B559D220E9067100B1DDF3 /* Target.swift */; };
-		52B559D520E9067100B1DDF3 /* Patch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B559D320E9067100B1DDF3 /* Patch.swift */; };
 		52B559D720E906D300B1DDF3 /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B559D620E906D300B1DDF3 /* JSON.swift */; };
-		52B559D920E9096000B1DDF3 /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B559D820E9096000B1DDF3 /* Stack.swift */; };
-		52B559DB20E911AA00B1DDF3 /* PScenePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B559DA20E911AA00B1DDF3 /* PScenePlayer.swift */; };
-		52B559DE20E919E700B1DDF3 /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B559DC20E919E600B1DDF3 /* Block.swift */; };
-		52B559DF20E919E700B1DDF3 /* LogoFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B559DD20E919E600B1DDF3 /* LogoFunction.swift */; };
-		52E6391120DD7A210015FC3D /* SymTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E6391020DD7A210015FC3D /* SymTable.swift */; };
+		52B559E920E9323A00B1DDF3 /* Visitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B559E120E9323900B1DDF3 /* Visitor.swift */; };
+		52B559EA20E9323A00B1DDF3 /* Program.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B559E220E9323900B1DDF3 /* Program.swift */; };
+		52B559EB20E9323A00B1DDF3 /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B559E320E9323A00B1DDF3 /* Stack.swift */; };
+		52B559EC20E9323A00B1DDF3 /* SymTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B559E420E9323A00B1DDF3 /* SymTable.swift */; };
+		52B559ED20E9323A00B1DDF3 /* LogoFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B559E520E9323A00B1DDF3 /* LogoFunction.swift */; };
+		52B559EE20E9323A00B1DDF3 /* Patch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B559E620E9323A00B1DDF3 /* Patch.swift */; };
+		52B559EF20E9323A00B1DDF3 /* PScenePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B559E720E9323A00B1DDF3 /* PScenePlayer.swift */; };
+		52B559F020E9323A00B1DDF3 /* Target.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B559E820E9323A00B1DDF3 /* Target.swift */; };
+		52B559F220E9326000B1DDF3 /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B559F120E9326000B1DDF3 /* Block.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,16 +49,16 @@
 		5248444320DEAFB6007A7545 /* SceneKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SceneKit.framework; path = System/Library/Frameworks/SceneKit.framework; sourceTree = SDKROOT; };
 		5248444520DEC0CA007A7545 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		5248444720DEC30F007A7545 /* ReSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReSwift.framework; path = Carthage/Build/iOS/ReSwift.framework; sourceTree = "<group>"; };
-		528BB01720DE4724005802A1 /* Program.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Program.swift; sourceTree = "<group>"; };
-		52ABB81B20D6FED100629123 /* Visitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Visitor.swift; sourceTree = "<group>"; };
-		52B559D220E9067100B1DDF3 /* Target.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Target.swift; sourceTree = "<group>"; };
-		52B559D320E9067100B1DDF3 /* Patch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Patch.swift; sourceTree = "<group>"; };
 		52B559D620E906D300B1DDF3 /* JSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSON.swift; sourceTree = "<group>"; };
-		52B559D820E9096000B1DDF3 /* Stack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stack.swift; sourceTree = "<group>"; };
-		52B559DA20E911AA00B1DDF3 /* PScenePlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PScenePlayer.swift; sourceTree = "<group>"; };
-		52B559DC20E919E600B1DDF3 /* Block.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Block.swift; sourceTree = "<group>"; };
-		52B559DD20E919E600B1DDF3 /* LogoFunction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogoFunction.swift; sourceTree = "<group>"; };
-		52E6391020DD7A210015FC3D /* SymTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SymTable.swift; sourceTree = "<group>"; };
+		52B559E120E9323900B1DDF3 /* Visitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Visitor.swift; path = logoVis/code/Visitor.swift; sourceTree = SOURCE_ROOT; };
+		52B559E220E9323900B1DDF3 /* Program.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Program.swift; path = logoVis/code/Program.swift; sourceTree = SOURCE_ROOT; };
+		52B559E320E9323A00B1DDF3 /* Stack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Stack.swift; path = logoVis/code/Stack.swift; sourceTree = SOURCE_ROOT; };
+		52B559E420E9323A00B1DDF3 /* SymTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SymTable.swift; path = logoVis/code/SymTable.swift; sourceTree = SOURCE_ROOT; };
+		52B559E520E9323A00B1DDF3 /* LogoFunction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LogoFunction.swift; path = logoVis/code/LogoFunction.swift; sourceTree = SOURCE_ROOT; };
+		52B559E620E9323A00B1DDF3 /* Patch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Patch.swift; path = logoVis/code/Patch.swift; sourceTree = SOURCE_ROOT; };
+		52B559E720E9323A00B1DDF3 /* PScenePlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PScenePlayer.swift; path = logoVis/code/PScenePlayer.swift; sourceTree = SOURCE_ROOT; };
+		52B559E820E9323A00B1DDF3 /* Target.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Target.swift; path = logoVis/code/Target.swift; sourceTree = SOURCE_ROOT; };
+		52B559F120E9326000B1DDF3 /* Block.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Block.swift; path = logoVis/code/Block.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,22 +95,14 @@
 		5216A89320D679AA00979360 /* logoVis */ = {
 			isa = PBXGroup;
 			children = (
-				52B559DC20E919E600B1DDF3 /* Block.swift */,
-				52B559DD20E919E600B1DDF3 /* LogoFunction.swift */,
-				52B559DA20E911AA00B1DDF3 /* PScenePlayer.swift */,
-				52B559D820E9096000B1DDF3 /* Stack.swift */,
+				52B559E020E9321D00B1DDF3 /* code */,
 				52B559D620E906D300B1DDF3 /* JSON.swift */,
-				52B559D320E9067100B1DDF3 /* Patch.swift */,
-				52B559D220E9067100B1DDF3 /* Target.swift */,
 				523000E020E175910021693B /* actions */,
 				523000D620E175910021693B /* reducers */,
 				523000DD20E175910021693B /* state */,
 				5216A8A620D679EF00979360 /* assets */,
 				5216A89420D679AA00979360 /* AppDelegate.swift */,
 				5216A89620D679AA00979360 /* ViewController.swift */,
-				52ABB81B20D6FED100629123 /* Visitor.swift */,
-				528BB01720DE4724005802A1 /* Program.swift */,
-				52E6391020DD7A210015FC3D /* SymTable.swift */,
 				5216A89820D679AA00979360 /* Main.storyboard */,
 				5216A89B20D679AA00979360 /* Assets.xcassets */,
 				5216A89D20D679AA00979360 /* LaunchScreen.storyboard */,
@@ -161,6 +153,23 @@
 				523000E520E175910021693B /* StatusAction.swift */,
 			);
 			path = actions;
+			sourceTree = "<group>";
+		};
+		52B559E020E9321D00B1DDF3 /* code */ = {
+			isa = PBXGroup;
+			children = (
+				52B559F120E9326000B1DDF3 /* Block.swift */,
+				52B559E520E9323A00B1DDF3 /* LogoFunction.swift */,
+				52B559E620E9323A00B1DDF3 /* Patch.swift */,
+				52B559E220E9323900B1DDF3 /* Program.swift */,
+				52B559E720E9323A00B1DDF3 /* PScenePlayer.swift */,
+				52B559E320E9323A00B1DDF3 /* Stack.swift */,
+				52B559E420E9323A00B1DDF3 /* SymTable.swift */,
+				52B559E820E9323A00B1DDF3 /* Target.swift */,
+				52B559E120E9323900B1DDF3 /* Visitor.swift */,
+			);
+			name = code;
+			path = "New Group";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -256,19 +265,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				523000E620E175910021693B /* AppReducer.swift in Sources */,
-				52B559DE20E919E700B1DDF3 /* Block.swift in Sources */,
-				52B559DF20E919E700B1DDF3 /* LogoFunction.swift in Sources */,
+				52B559F220E9326000B1DDF3 /* Block.swift in Sources */,
+				52B559EC20E9323A00B1DDF3 /* SymTable.swift in Sources */,
 				52B559D720E906D300B1DDF3 /* JSON.swift in Sources */,
-				52B559DB20E911AA00B1DDF3 /* PScenePlayer.swift in Sources */,
-				528BB01820DE4724005802A1 /* Program.swift in Sources */,
+				52B559EF20E9323A00B1DDF3 /* PScenePlayer.swift in Sources */,
+				52B559F020E9323A00B1DDF3 /* Target.swift in Sources */,
 				523000F420E177CB0021693B /* AppState.swift in Sources */,
-				52B559D920E9096000B1DDF3 /* Stack.swift in Sources */,
-				52B559D420E9067100B1DDF3 /* Target.swift in Sources */,
+				52B559EA20E9323A00B1DDF3 /* Program.swift in Sources */,
+				52B559E920E9323A00B1DDF3 /* Visitor.swift in Sources */,
+				52B559EB20E9323A00B1DDF3 /* Stack.swift in Sources */,
+				52B559ED20E9323A00B1DDF3 /* LogoFunction.swift in Sources */,
 				523000F220E175910021693B /* StatusAction.swift in Sources */,
 				5216A89720D679AA00979360 /* ViewController.swift in Sources */,
-				52B559D520E9067100B1DDF3 /* Patch.swift in Sources */,
-				52ABB81C20D6FED100629123 /* Visitor.swift in Sources */,
-				52E6391120DD7A210015FC3D /* SymTable.swift in Sources */,
+				52B559EE20E9323A00B1DDF3 /* Patch.swift in Sources */,
 				5216A89520D679AA00979360 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

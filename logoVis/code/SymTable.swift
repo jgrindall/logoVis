@@ -4,26 +4,31 @@ import WebKit
 
 private class Helper{
 
+	static func getType(name:String) -> String{
+		let subs:[Substring] = name.split(separator: "-")
+		return String(subs[0])
+	}
+	
 	static func getPlayerName(name:String) -> String{
 		let subs:[Substring] = name.split(separator: "-")
 		return String(subs[1])
 	}
 	
-	static func getType(name:String) -> String{
+	static func getFunctionName(name:String) -> String{
 		let subs:[Substring] = name.split(separator: "-")
-		return String(subs[0])
+		return String(subs[2])
 	}
 
 }
 
 class SymTable {
 	
-	private var _blocks:[Block]
-	private var _functions:LogoFunctionDict
-	private var _currentPlayer:PScenePlayer?
-	private var _setups:[String:LogoFunctionDict]
-	private var _daemons:[String:LogoFunctionDict]
-	private var _activeDaemons:[String:LogoFunctionDict]
+	private var _blocks:			[Block]
+	private var _functions:			LogoFunctionDict
+	private var _currentPlayer:		PScenePlayer?
+	private var _setups:			[String:LogoFunction]
+	private var _daemons:			[String:LogoFunctionDict]
+	private var _activeDaemons:		[String:LogoFunctionDict]
 	
 	init(){
 		_blocks = []
@@ -83,46 +88,40 @@ class SymTable {
 		return _functions[s]
 	}
 	
-	func addToActiveDaemon(name:String, fn:LogoFunction){
+	func addToActiveDaemon(name:String, fnName:String, fn:LogoFunction){
 		if var daemonList = _activeDaemons[name] {
-			daemonList[name] = fn
+			daemonList[fnName] = fn
 		}
 		else{
-			_activeDaemons[name] = [name:fn]
+			_activeDaemons[name] = [fnName:fn]
 		}
 	}
 	
 	func addToSetups(name:String, fn:LogoFunction){
-		if var setupList = _setups[name] {
-			setupList[name] = fn
-		}
-		else{
-			_setups[name] = [name:fn]
-		}
+		_setups[name] = fn
 	}
 	
-	func addToDaemon(name:String, fn:LogoFunction){
+	func addToDaemon(name:String, fnName:String, fn:LogoFunction){
 		if var daemonList = _daemons[name] {
-			daemonList[name] = fn
+			daemonList[fnName] = fn
 		}
 		else{
-			_daemons[name] = [name:fn]
+			_daemons[name] = [fnName:fn]
 		}
 	}
 	
 	func activateDaemon(name:String){
-		let playerName:String = Helper.getPlayerName(name:name)
-		let daemonList:LogoFunctionDict = _daemons[playerName]!
-		if let fn:LogoFunction = daemonList[name] {
-			addToActiveDaemon(name: name, fn: fn)
+		let playerType:String = Helper.getPlayerName(name:name)
+		let fnName = Helper.getFunctionName(name: name)
+		let daemonList:LogoFunctionDict = _daemons[playerType]!
+		if let fn:LogoFunction = daemonList[fnName] {
+			addToActiveDaemon(name: playerType, fnName:fnName, fn: fn)
 		}
+		print(_activeDaemons)
 	}
 		
-	func getSetupsForType(type:String) -> [LogoFunction]{
-		if let setupList:LogoFunctionDict = _setups[type] {
-			return Array(setupList.values)
-		}
-		return []
+	func getSetupForType(type:String) -> LogoFunction{
+		return _setups[type]!
 	}
 	
 	func getDaemonsForType(type:String) -> [LogoFunction]{
@@ -141,13 +140,17 @@ class SymTable {
 
 	func addFunction(name:String, argsNode:JSON, statementsNode:JSON){
 		let fn = LogoFunction(name: name, argsNode: argsNode, statementsNode: statementsNode)
-		let playerName:String = Helper.getPlayerName(name:name)
+		var playerName:String
+		var fnName:String
 		_functions[name] = fn
 		if(Helper.getType(name:name) == "setup"){
+			playerName = Helper.getPlayerName(name:name)
 			addToSetups(name:playerName, fn:fn)
 		}
 		else if(Helper.getType(name:name) == "daemon"){
-			addToDaemon(name:playerName, fn:fn)
+			playerName = Helper.getPlayerName(name:name)
+			fnName = Helper.getFunctionName(name: name)
+			addToDaemon(name:playerName, fnName:fnName, fn:fn)
 		}
 	}
 

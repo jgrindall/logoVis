@@ -5,18 +5,24 @@ import WebKit
 
 class Target:PScenePlayer{
 	
-	private var pos:CGPoint
-	private var vars:JSON
-	private var type:String
+	private var _pos:CGPoint
+	private var _vars:JSON
+	private var _type:String
+	private var _id:String
 	
-	init(){
-		pos = CGPoint(x: 0.0, y: 0.0)
-		vars = [:]
-		type = ""
+	init(type:String, pos:CGPoint){
+		_pos = pos
+		_vars = [:]
+		_type = type
+		_id = UUID.init().uuidString
 	}
 	
 	func getType() -> String {
-		return type
+		return _type
+	}
+	
+	func getID() -> String {
+		return _id
 	}
 	
 	func consume(_:JSON){
@@ -38,11 +44,11 @@ class Target:PScenePlayer{
 	}
 	
 	func getPos() -> CGPoint{
-		return pos
+		return _pos
 	}
 	
 	func setVar(name:String, val:Float){
-		vars[name] = val
+		_vars[name] = val
 	}
 	
 	func getData(){
@@ -50,7 +56,7 @@ class Target:PScenePlayer{
 	}
 	
 	func getVar(name:String) -> Float{
-		return vars[name] as! Float
+		return _vars[name] as! Float
 	}
 	
 }

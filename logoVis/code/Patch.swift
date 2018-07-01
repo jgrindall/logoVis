@@ -14,6 +14,14 @@ class Patch:PScenePlayer {
 		type = "patch"
 	}
 	
+	func getID() -> String {
+		return "patch"
+	}
+	
+	func getType() -> String {
+		return "patch"
+	}
+	
 	func setVar(name:String, val:Float){
 		vars[name] = val
 	}
