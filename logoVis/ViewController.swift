@@ -4,24 +4,9 @@ import WebKit
 import SceneKit
 import ReSwift
 
-class ViewController: UIViewController, UIWebViewDelegate, SCNSceneRendererDelegate {
-
-	private var playButton:UIButton?
-	private var stopButton:UIButton?
-	private var testButton:UIButton?
-	private var procButton:UIButton?
-	private var webView:UIWebView
-	private var sceneView: SCNView?
-	private var prog:Program?
-	private var _targets:[Target]
-	private var _patches:[Patch]
-	private var _nodes:[SCNNode]
+class ViewController: UIViewController {
 	
 	required init?(coder aDecoder: NSCoder) {
-		self.webView = UIWebView(frame: CGRect(x: 0, y: 0, width: 0, height:0))
-		_targets = []
-		_patches = []
-		_nodes = []
 		super.init(nibName: nil, bundle: nil)
 	}
 	
@@ -30,189 +15,23 @@ class ViewController: UIViewController, UIWebViewDelegate, SCNSceneRendererDeleg
 		store.unsubscribe(self)
 	}
 	
+	func _addChildController(content: UIViewController) {
+		addChildViewController(content)
+		self.view.addSubview(content.view)
+		content.didMove(toParentViewController: self)
+	}
+	
+	func _removeContentController(content: UIViewController) {
+		content.willMove(toParentViewController: nil)
+		content.view.removeFromSuperview()
+		content.removeFromParentViewController()
+	}
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		init3d()
-		initWeb()
-		initTargets()
-		initPatches()
-		addUI()
+		_addChildController(content: ControlsViewController(frame: CGRect(x: 0, y: 0, width: 800, height: 60)))
+		_addChildController(content: GameViewController(frame: CGRect(x: 0, y: 60, width: 800, height: 600)))
 		store.subscribe(self) { $0.select { state in state.routingState } }
-	}
-	
-	func initTargets(){
-		for i in 0...10{
-			_targets.append(Target(type: "robot", pos: CGPoint(x: 0.0, y: 0.0), node:_nodes[i]))
-		}
-		for i in 10...20{
-			_targets.append(Target(type: "rabbit", pos: CGPoint(x: 0.0, y: 0.0), node:_nodes[i]))
-		}
-	}
-	
-	func initPatches(){
-		for _ in 0...100{
-			_patches.append(Patch())
-		}
-	}
-
-	func init3d(){
-		sceneView = SCNView()
-		sceneView?.frame = CGRect(x: 0, y: 150, width: 650, height: 650)
-		let scene = SCNScene()
-		sceneView?.scene = scene
-		sceneView?.showsStatistics = true
-		
-		let camera = SCNCamera()
-		let cameraNode = SCNNode()
-		cameraNode.camera = camera
-		cameraNode.position = SCNVector3(x: 0.0, y: 0.0, z: 3.0)
-		
-		let light = SCNLight()
-		light.type = SCNLight.LightType.omni
-		let lightNode = SCNNode()
-		lightNode.light = light
-		lightNode.position = SCNVector3(x: 1.5, y: 1.5, z: 1.5)
-		
-		let cubeGeometry = SCNBox(width: 1.5, height: 1.5, length: 1.0, chamferRadius: 0.1)
-		var node:SCNNode
-		for _ in 0...31{
-			node = SCNNode(geometry: cubeGeometry)
-			_nodes.append(node)
-			scene.rootNode.addChildNode(node)
-		}
-		cubeGeometry.firstMaterial!.diffuse.contents = UIColor.green
-
-		scene.rootNode.addChildNode(cameraNode)
-		
-		sceneView!.backgroundColor = UIColor.red
-		scene.rootNode.addChildNode(cameraNode)
-		self.view.addSubview(sceneView!)
-		
-		sceneView!.delegate = self
-		sceneView!.isPlaying = true
-	}
-	
-	func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
-		var pos:CGPoint
-		for target in _targets{
-			pos = target.getPos()
-			target.getNode().position.x = Float(pos.x)
-			target.getNode().position.y = Float(pos.y)
-		}
-	}
-	
-	func addUI(){
-		playButton = UIButton(type: UIButtonType.system)
-		playButton?.setTitle("play", for: UIControlState.normal)
-		playButton?.frame = CGRect(x: 50, y: 50, width: 100, height: 50)
-		playButton?.addTarget(self, action: #selector(_playTapped), for: .touchUpInside)
-		self.view.addSubview(playButton!)
-		stopButton = UIButton(type: UIButtonType.system)
-		stopButton?.setTitle("stop", for: UIControlState.normal)
-		stopButton?.frame = CGRect(x: 250, y: 50, width: 100, height: 50)
-		stopButton?.addTarget(self, action: #selector(_stopTapped), for: .touchUpInside)
-		self.view.addSubview(stopButton!)
-		procButton = UIButton(type: UIButtonType.system)
-		procButton?.setTitle("proc", for: UIControlState.normal)
-		procButton?.frame = CGRect(x: 450, y: 50, width: 100, height: 50)
-		procButton?.addTarget(self, action: #selector(_procTapped), for: .touchUpInside)
-		self.view.addSubview(procButton!)
-		
-		testButton = UIButton(type: UIButtonType.system)
-		testButton?.setTitle("TEST", for: UIControlState.normal)
-		testButton?.frame = CGRect(x: 650, y: 50, width: 100, height: 50)
-		testButton?.addTarget(self, action: #selector(_testTapped), for: .touchUpInside)
-		self.view.addSubview(testButton!)
-	}
-	
-	@objc private func _playTapped(sender: UIButton!) {
-		var s:String = "to test fd 0.01 end"
-		s = s + "to setup-rabbit rt 45 activate-daemon daemon-rabbit-eat activate-daemon daemon-rabbit-walk end"
-		s = s + "to setup-robot set-var age 0 activate-daemon daemon-robot-walk end"
-		s = s + "to setup-patch set-var grass 0.3 activate-daemon daemon-patch-grow end"
-		s = s + "to daemon-robot-walk test rt 0.05 end"
-		s = s + "to daemon-rabbit-walk fd 0.02 rt 0.05 end"
-		s = s + "to daemon-rabbit-eat set-patch-var grass 0 end"
-		s = s + "to daemon-patch-grow set-var grass (get-var grass + 0.01) end"
-		self.run(fnName:"draw", arg:s)
-		store.dispatch(StatusAction(status: "123"))
-	}
-	
-	private func _eval(s:String){
-		self.webView.stringByEvaluatingJavaScript(from: s)
-	}
-	
-	public func run(fnName:String) {
-		_eval(s:fnName + "()")
-	}
-	
-	public func run(fnName:String, arg:String) {
-		_eval(s:fnName + "(\'" + arg + "\')")
-	}
-	
-	@objc private func _stopTapped(sender: UIButton!) {
-		self.prog?.cancel()
-	}
-	
-	@objc private func _testTapped(sender: UIButton!) {
-		print("TEST")
-	}
-	
-	@objc private func _procTapped(sender: UIButton!) {
-		
-	}
-	
-	func webViewDidStartLoad(_ webView: UIWebView) {
-		print("webViewDidStartLoad")
-	}
-	
-	func webView(_ webView: UIWebView, didFailLoadWithError error: Error){
-		print(error as Any)
-	}
-	
-	func webViewDidFinishLoad(_ webView: UIWebView){
-		let ctx:JSContext = (self.webView.value(forKeyPath: "documentView.webView.mainFrame.javaScriptContext") as? JSContext)!
-		let logFunction: @convention(block) (String) -> Void = { (msg: String) in
-			print("output:", msg)
-		}
-		let iosCallbackFunction: @convention(block) (String) -> Void = { (msg: String) in
-			let jsonData = msg.data(using: .utf8)
-			let dictionary:JSON = try! JSONSerialization.jsonObject(with: jsonData!, options: .mutableLeaves) as! JSON
-			self.visit(dictionary:dictionary)
-		}
-		ctx.objectForKeyedSubscript("console").setObject(unsafeBitCast(logFunction, to: AnyObject.self), forKeyedSubscript: "log" as NSCopying & NSObjectProtocol)
-		ctx.objectForKeyedSubscript("iosBridge").setObject(unsafeBitCast(iosCallbackFunction, to: AnyObject.self), forKeyedSubscript: "callback" as NSCopying & NSObjectProtocol)
-	}
-	
-	func visit(dictionary:JSON){
-		self.prog = Program()
-		self.prog?.receive = {
-			(id:String, s:String, f:Float) -> Void in
-			//print(id, s, f)
-		}
-		
-		self.prog?.start(tree: dictionary, targets:_targets, patches:_patches)
-	}
-	
-	func initUIWeb(){
-		do {
-			self.webView.delegate = self
-			let htmlPath:String = Bundle.main.path(forResource: "index", ofType: "html")!
-			let contents:String = try String(contentsOfFile: htmlPath)
-			let url:URL = URL(fileURLWithPath: htmlPath)
-			self.webView.loadHTMLString(contents, baseURL: url)
-		}
-		catch (_) {
-			print("Error while loading")
-		}
-	}
-	
-	func initWeb(){
-		self.initUIWeb();
-	}
-	
-	func didFailLoadWithError(v:UIWebView){
-		print("error");
 	}
 	
 	override var prefersStatusBarHidden : Bool {

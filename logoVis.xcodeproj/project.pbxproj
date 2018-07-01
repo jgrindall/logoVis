@@ -30,6 +30,8 @@
 		52B559EF20E9323A00B1DDF3 /* PScenePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B559E720E9323A00B1DDF3 /* PScenePlayer.swift */; };
 		52B559F020E9323A00B1DDF3 /* Target.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B559E820E9323A00B1DDF3 /* Target.swift */; };
 		52B559F220E9326000B1DDF3 /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B559F120E9326000B1DDF3 /* Block.swift */; };
+		52B559F420E96C0700B1DDF3 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B559F320E96C0700B1DDF3 /* GameViewController.swift */; };
+		52B559F620E96C9900B1DDF3 /* ControlsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B559F520E96C9900B1DDF3 /* ControlsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -59,6 +61,8 @@
 		52B559E720E9323A00B1DDF3 /* PScenePlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PScenePlayer.swift; path = logoVis/code/PScenePlayer.swift; sourceTree = SOURCE_ROOT; };
 		52B559E820E9323A00B1DDF3 /* Target.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Target.swift; path = logoVis/code/Target.swift; sourceTree = SOURCE_ROOT; };
 		52B559F120E9326000B1DDF3 /* Block.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Block.swift; path = logoVis/code/Block.swift; sourceTree = SOURCE_ROOT; };
+		52B559F320E96C0700B1DDF3 /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
+		52B559F520E96C9900B1DDF3 /* ControlsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,7 +106,9 @@
 				523000DD20E175910021693B /* state */,
 				5216A8A620D679EF00979360 /* assets */,
 				5216A89420D679AA00979360 /* AppDelegate.swift */,
+				52B559F520E96C9900B1DDF3 /* ControlsViewController.swift */,
 				5216A89620D679AA00979360 /* ViewController.swift */,
+				52B559F320E96C0700B1DDF3 /* GameViewController.swift */,
 				5216A89820D679AA00979360 /* Main.storyboard */,
 				5216A89B20D679AA00979360 /* Assets.xcassets */,
 				5216A89D20D679AA00979360 /* LaunchScreen.storyboard */,
@@ -264,6 +270,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				52B559F620E96C9900B1DDF3 /* ControlsViewController.swift in Sources */,
 				523000E620E175910021693B /* AppReducer.swift in Sources */,
 				52B559F220E9326000B1DDF3 /* Block.swift in Sources */,
 				52B559EC20E9323A00B1DDF3 /* SymTable.swift in Sources */,
@@ -276,6 +283,7 @@
 				52B559EB20E9323A00B1DDF3 /* Stack.swift in Sources */,
 				52B559ED20E9323A00B1DDF3 /* LogoFunction.swift in Sources */,
 				523000F220E175910021693B /* StatusAction.swift in Sources */,
+				52B559F420E96C0700B1DDF3 /* GameViewController.swift in Sources */,
 				5216A89720D679AA00979360 /* ViewController.swift in Sources */,
 				52B559EE20E9323A00B1DDF3 /* Patch.swift in Sources */,
 				5216A89520D679AA00979360 /* AppDelegate.swift in Sources */,
