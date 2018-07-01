@@ -6010,5 +6010,3 @@ var Parser =
 		  })()
 
 
-
- alert("parser loaded");

@@ -15,7 +15,7 @@ class Program {
 		item?.cancel()
 	}
 	
-	public func start(tree:JSON){
+	public func start(tree:JSON, targets:[Target], patches:[Patch]){
 		_cancelled = false
 		let queue = DispatchQueue.global()
 		item = DispatchWorkItem { [weak self] in
@@ -27,7 +27,7 @@ class Program {
 			v.isActive = {
 				return !(self!._cancelled || (self?.item.isCancelled)!)
 			}
-			v.start(tree: tree)
+			v.start(tree: tree, targets:targets, patches:patches)
 		}
 		queue.async(execute: item)
 	}

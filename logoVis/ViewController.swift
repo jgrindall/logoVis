@@ -4,29 +4,6 @@ import WebKit
 import SceneKit
 import ReSwift
 
-struct AppState: StateType {
-	var count = 0
-}
-
-struct AddAction: Action { }
-
-func appReducer(action: Action, state: AppState?) -> AppState {
-	var state = state ?? AppState()
-	
-	switch action {
-	case let addAction as AddAction: state.count += 1
-	default: break
-	}
-	
-	return state
-}
-
-let store = Store(
-	reducer: appReducer,
-	state: AppState(),
-	middleware: [])
-
-
 class ViewController: UIViewController, UIWebViewDelegate, SCNSceneRendererDelegate {
 
 	private var playButton:UIButton?
@@ -44,13 +21,19 @@ class ViewController: UIViewController, UIWebViewDelegate, SCNSceneRendererDeleg
 		super.init(nibName: nil, bundle: nil)
 	}
 	
+	override func viewWillDisappear(_ animated: Bool) {
+		super.viewWillDisappear(animated)
+		store.unsubscribe(self)
+	}
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		self.init3d()
 		self.initWeb()
 		self.addUI()
+		store.subscribe(self) { $0.select { state in state.routingState } }
 	}
-	
+
 	func init3d(){
 		sceneView = SCNView()
 		sceneView?.frame = CGRect(x: 0, y: 150, width: 650, height: 650)
@@ -124,6 +107,7 @@ class ViewController: UIViewController, UIWebViewDelegate, SCNSceneRendererDeleg
 		let s:String = "rpt 55555555 [ fd " + String(r) + "]"
 		print(s)
 		self.run(fnName:"draw", arg:s)
+		store.dispatch(StatusAction(status: "123"))
 	}
 	
 	public func run(fnName:String) {
@@ -182,7 +166,19 @@ class ViewController: UIViewController, UIWebViewDelegate, SCNSceneRendererDeleg
 				self.robot = -2.0
 			}
 		}
-		self.prog?.start(tree: dictionary)
+		let targets = [
+			Target(),
+			Target(),
+			Target()
+		]
+		
+		let patches = [
+			Patch(),
+			Patch(),
+			Patch()
+		]
+		
+		self.prog?.start(tree: dictionary, targets:targets, patches:patches)
 	}
 	
 	func initUIWeb(){
@@ -216,6 +212,15 @@ class ViewController: UIViewController, UIWebViewDelegate, SCNSceneRendererDeleg
 	}
 
 
+}
+
+
+extension ViewController: StoreSubscriber {
+	typealias StoreSubscriberStateType = MyState
+	
+	func newState(state: MyState) {
+		print(state)
+	}
 }
 
 	

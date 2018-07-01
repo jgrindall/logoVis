@@ -49,6 +49,7 @@ class SymTable {
 	
 	private var _blocks:[Block]
 	private var _functions:[String:LogoFunction]
+	private var _currentPlayer:PScenePlayer?
 	
 	init(){
 		_blocks = []
@@ -66,6 +67,14 @@ class SymTable {
 	func add(name:String, val:Float){
 		let block = getCurrentBlock()
 		block?.add(s: name, v: val)
+	}
+	
+	func setPlayer(player:PScenePlayer){
+		_currentPlayer = player
+	}
+	
+	func getSetupForType(type:String)->[LogoFunction]{
+		return []
 	}
 	
 	func get(name:String)->Float?{

@@ -2,8 +2,6 @@ import UIKit
 import JavaScriptCore
 import WebKit
 
-typealias JSON = [String: Any]
-
 class Helper{
 	static func mult(vals:[Float]) -> Float {
 		var num:Float = 1.0
@@ -21,46 +19,20 @@ class Helper{
 	}
 }
 
-struct Stack<Float> {
-	fileprivate var array: [Float] = []
-	
-	mutating func push(_ element: Float) {
-		array.append(element)
-	}
-	
-	mutating func pop() -> Float? {
-		return array.popLast()
-	}
-	
-	mutating func popForChildren(node:JSON) -> [Float]{
-		let ch:[JSON] = (node["children"] as! [JSON])
-		return self.popN(n: ch.count)
-	}
-	
-	mutating func popN(n:Int) -> [Float]{
-		var vals:[Float] = [ ];
-		for _ in 0..<n{
-			let num:Float = self.pop()!
-			vals.append(num)
-		}
-		return vals
-	}
-	
-	func peek() -> Float? {
-		return array.last
-	}
-}
-
 class Visitor {
 	
 	public var receive: ((_ s:String, _ f:Float) -> Void)?
 	public var isActive:(() -> Bool)?
 	private var _stack:Stack<Float>
 	private var _symTable:SymTable
+	private var _targets:[Target]
+	private var _patches:[Patch]
 	
 	init(){
 		_stack = Stack()
 		_symTable = SymTable()
+		_targets = []
+		_patches = []
 	}
 	
 	func visitstart(node:JSON){
@@ -135,6 +107,14 @@ class Visitor {
 		let statementsNode = node["stmts"] as! JSON
 		if(self.isActive!()){
 			_symTable.addFunction(name: name, argsNode: argsNode, statementsNode: statementsNode)
+		}
+	}
+	
+	func executeFunctions(fs:[LogoFunction]){
+		for f:LogoFunction in fs {
+			if(self.isActive!()){
+				executeFunction(f: f)
+			}
 		}
 	}
 	
@@ -420,23 +400,42 @@ class Visitor {
 	}
 	
 	func visitNode(node:JSON){
-		//print("visit", node);
 		if (isActive!()) {
 			_visitNode(node: node)
 		}
 		else{
-			return;
+			return
 		}
 	}
 	
-	public func start(tree:JSON){
+	func setupTargets(){
+		for target:Target in _targets {
+			if (isActive!()) {
+				_symTable.setPlayer(player:target)
+				executeFunctions(fs: _symTable.getSetupForType(type: target.getType()))
+			}
+		}
+	}
+	
+	func setupPatches(){
+		for patch:Patch in _patches {
+			if (isActive!()) {
+				_symTable.setPlayer(player:patch)
+				executeFunctions(fs: _symTable.getSetupForType(type:"patch"))
+			}
+		}
+	}
+	
+	public func start(tree:JSON, targets:[Target], patches:[Patch]){
+		_targets = targets
+		_patches = patches
 		visitNode(node:tree)
 		print("done")
 		if let receive = self.receive {
 			receive("done", 0)
 		}
-		//setupPatches();
-		//setupTargets();
+		setupPatches();
+		setupTargets();
 		//runDaemons();
 	}
 	
