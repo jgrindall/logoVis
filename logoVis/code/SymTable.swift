@@ -117,7 +117,7 @@ class SymTable {
 		if let fn:LogoFunction = daemonList[fnName] {
 			addToActiveDaemon(name: playerType, fnName:fnName, fn: fn)
 		}
-		print(_activeDaemons)
+		//print(_activeDaemons)
 	}
 		
 	func getSetupForType(type:String) -> LogoFunction{

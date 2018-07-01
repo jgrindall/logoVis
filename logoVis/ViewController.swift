@@ -13,26 +13,15 @@ class ViewController: UIViewController, UIWebViewDelegate, SCNSceneRendererDeleg
 	private var webView:UIWebView
 	private var sceneView: SCNView?
 	private var prog:Program?
-	private var cubeNode0:SCNNode?
-	private var cubeNode1:SCNNode?
-	private var cubeNode2:SCNNode?
-	private var r0:Float = 0.0
-	private var r1:Float = 0.0
-	private var r2:Float = 0.0
 	private var _targets:[Target]
 	private var _patches:[Patch]
+	private var _nodes:[SCNNode]
 	
 	required init?(coder aDecoder: NSCoder) {
 		self.webView = UIWebView(frame: CGRect(x: 0, y: 0, width: 0, height:0))
-		_targets = [
-			Target(type: "robot", pos: CGPoint(x: 0.0, y: 0.0)),
-			Target(type: "robot", pos: CGPoint(x: 0.0, y: 0.0))
-		]
-		_patches = [
-			Patch(),
-			Patch(),
-			Patch()
-		]
+		_targets = []
+		_patches = []
+		_nodes = []
 		super.init(nibName: nil, bundle: nil)
 	}
 	
@@ -43,10 +32,27 @@ class ViewController: UIViewController, UIWebViewDelegate, SCNSceneRendererDeleg
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		self.init3d()
-		self.initWeb()
-		self.addUI()
+		init3d()
+		initWeb()
+		initTargets()
+		initPatches()
+		addUI()
 		store.subscribe(self) { $0.select { state in state.routingState } }
+	}
+	
+	func initTargets(){
+		for i in 0...10{
+			_targets.append(Target(type: "robot", pos: CGPoint(x: 0.0, y: 0.0), node:_nodes[i]))
+		}
+		for i in 10...20{
+			_targets.append(Target(type: "rabbit", pos: CGPoint(x: 0.0, y: 0.0), node:_nodes[i]))
+		}
+	}
+	
+	func initPatches(){
+		for _ in 0...100{
+			_patches.append(Patch())
+		}
 	}
 
 	func init3d(){
@@ -68,15 +74,15 @@ class ViewController: UIViewController, UIWebViewDelegate, SCNSceneRendererDeleg
 		lightNode.position = SCNVector3(x: 1.5, y: 1.5, z: 1.5)
 		
 		let cubeGeometry = SCNBox(width: 1.5, height: 1.5, length: 1.0, chamferRadius: 0.1)
-		self.cubeNode0 = SCNNode(geometry: cubeGeometry)
-		self.cubeNode1 = SCNNode(geometry: cubeGeometry)
-		self.cubeNode2 = SCNNode(geometry: cubeGeometry)
+		var node:SCNNode
+		for _ in 0...31{
+			node = SCNNode(geometry: cubeGeometry)
+			_nodes.append(node)
+			scene.rootNode.addChildNode(node)
+		}
 		cubeGeometry.firstMaterial!.diffuse.contents = UIColor.green
 
 		scene.rootNode.addChildNode(cameraNode)
-		scene.rootNode.addChildNode(self.cubeNode0!)
-		scene.rootNode.addChildNode(self.cubeNode1!)
-		scene.rootNode.addChildNode(self.cubeNode2!)
 		
 		sceneView!.backgroundColor = UIColor.red
 		scene.rootNode.addChildNode(cameraNode)
@@ -87,12 +93,12 @@ class ViewController: UIViewController, UIWebViewDelegate, SCNSceneRendererDeleg
 	}
 	
 	func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
-		cubeNode0?.position.x = r0
-		cubeNode0?.rotation = SCNVector4(0, 0.5, 1, r0)
-		cubeNode1?.position.x = r1
-		cubeNode1?.rotation = SCNVector4(0, 0.5, 1, r1)
-		cubeNode2?.position.x = r2
-		cubeNode2?.rotation = SCNVector4(0, 0.5, 1, r2)
+		var pos:CGPoint
+		for target in _targets{
+			pos = target.getPos()
+			target.getNode().position.x = Float(pos.x)
+			target.getNode().position.y = Float(pos.y)
+		}
 	}
 	
 	func addUI(){
@@ -182,11 +188,7 @@ class ViewController: UIViewController, UIWebViewDelegate, SCNSceneRendererDeleg
 		self.prog = Program()
 		self.prog?.receive = {
 			(id:String, s:String, f:Float) -> Void in
-			print(id, s, f)
-			self.r0 = self.r0 + 0.005
-			if(self.r0 > 2.0){
-				self.r0 = -2.0
-			}
+			//print(id, s, f)
 		}
 		
 		self.prog?.start(tree: dictionary, targets:_targets, patches:_patches)

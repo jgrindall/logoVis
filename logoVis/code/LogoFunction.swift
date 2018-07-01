@@ -29,3 +29,9 @@ class LogoFunction {
 }
 
 typealias LogoFunctionDict = [String:LogoFunction]
+
+typealias LogoFunctionArray = [LogoFunction]
+
+
+
+

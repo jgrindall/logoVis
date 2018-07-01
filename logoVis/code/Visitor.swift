@@ -27,12 +27,14 @@ class Visitor {
 	private var _symTable:SymTable
 	private var _targets:[Target]
 	private var _patches:[Patch]
-	
+	private var _cache:[String:[LogoFunction]]
+
 	init(){
 		_stack = Stack()
 		_symTable = SymTable()
 		_targets = []
 		_patches = []
+		_cache = ["patch":[]]
 	}
 	
 	private func visitstart(node:JSON){
@@ -84,7 +86,6 @@ class Visitor {
 	
 	private func visitnumber(node:JSON){
 		if let strVal = (node["value"] as? String) {
-			print("its a string")
 			if(strVal == "random"){
 				_stack.push(57);
 			}
@@ -231,25 +232,27 @@ class Visitor {
 	private func visitfdstmt(node:JSON){
 		visitchildren(node:node)
 		if(self.isActive!()){
-			if let receive = self.receive {
-				receive(_symTable.getPlayer().getID(), "fd", _stack.pop()!)
-			}
+			//if let receive = self.receive {
+				let amt:Float = _stack.pop()!
+				//receive(_symTable.getPlayer().getID(), "fd", amt)
+				_symTable.getPlayer().consume(type:"fd", amt:amt)
+			//}
 		}
 	}
 	
 	private func visitbkstmt(node:JSON){
 		visitchildren(node:node)
-		print("BK:", _stack.pop()!)
+		//print("BK:", _stack.pop()!)
 	}
 	
 	private func visitrtstmt(node:JSON){
 		visitchildren(node:node)
-		print("RT:", _stack.pop()!)
+		//print("RT:", _stack.pop()!)
 	}
 	
 	private func visitltstmt(node:JSON){
 		visitchildren(node:node)
-		print("LT:", _stack.pop()!)
+		//print("LT:", _stack.pop()!)
 	}
 	
 	private func visitarcrtstmt(node:JSON){
@@ -455,52 +458,38 @@ class Visitor {
 		}
 	}
 	
-	private func setupTargets(){
-		for target:Target in _targets {
+	private func _setup(players:[PScenePlayer]){
+		for p in players{
 			if (isActive!()) {
-				_symTable.setPlayer(player:target)
-				let fn:LogoFunction = _symTable.getSetupForType(type: target.getType())
-				executeFunction(f: fn)
-			}
-		}
-	}
-	
-	private func setupPatches(){
-		for patch:Patch in _patches {
-			if (isActive!()) {
-				_symTable.setPlayer(player:patch)
-				let f = _symTable.getSetupForType(type: "patch")
+				_symTable.setPlayer(player: p)
+				let f:LogoFunction = _symTable.getSetupForType(type: p.getType())
 				executeFunction(f: f)
 			}
 		}
 	}
-	
-	private func tickTargets(){
-		for target in _targets{
+
+	private func _tick(players:[PScenePlayer]){
+		for p in players{
 			if (isActive!()) {
-				let type:String = target.getType()
-				let fs = _symTable.getActiveDaemonsForType(type: type)
-				_symTable.setPlayer(player: target)
-				executeFunctions(fs: fs)
+				_symTable.setPlayer(player: p)
+				executeFunctions(fs: _cache[p.getType()]!)
 			}
 		}
-	};
-	private func tickPatches(){
-		for patch in _patches{
-			if (isActive!()) {
-				let fs = _symTable.getActiveDaemonsForType(type: "patch")
-				_symTable.setPlayer(player: patch)
-				executeFunctions(fs: fs)
-			}
-		}
-	};
+	}
 	
-	private func runDaemons(){
+	private func _runDaemons(){
 		var active = isActive!()
+		_cache["robot"] = _symTable.getActiveDaemonsForType(type: "robot")
+		_cache["rabbit"] = _symTable.getActiveDaemonsForType(type: "rabbit")
+		_cache["patch"] = _symTable.getActiveDaemonsForType(type: "patch")
 		while(active){
-			tickTargets()
+			print("T")
+			_tick(players:_targets)
 			active = isActive!()
-			tickPatches()
+			if(active){
+				print("P")
+				_tick(players:_patches)
+			}
 			active = isActive!()
 		}
 	}
@@ -509,13 +498,12 @@ class Visitor {
 		_targets = targets
 		_patches = patches
 		visitNode(node:tree)
-		print("done")
+		_setup(players: _targets)
+		_setup(players: _patches)
+		_runDaemons()
 		if let receive = self.receive {
 			receive("done", "done", 0)
 		}
-		setupPatches()
-		setupTargets()
-		runDaemons()
 	}
 
 }

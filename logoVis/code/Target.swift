@@ -1,7 +1,7 @@
 import UIKit
 import JavaScriptCore
 import WebKit
-
+import SceneKit
 
 class Target:PScenePlayer{
 	
@@ -9,12 +9,14 @@ class Target:PScenePlayer{
 	private var _vars:JSON
 	private var _type:String
 	private var _id:String
+	private var _node:SCNNode
 	
-	init(type:String, pos:CGPoint){
+	init(type:String, pos:CGPoint, node:SCNNode){
 		_pos = pos
 		_vars = [:]
 		_type = type
 		_id = UUID.init().uuidString
+		_node = node
 	}
 	
 	func getType() -> String {
@@ -23,6 +25,20 @@ class Target:PScenePlayer{
 	
 	func getID() -> String {
 		return _id
+	}
+	
+	func consume(type:String, amt:Float){
+		if(type == "fd"){
+			_pos.x = _pos.x + CGFloat(amt)
+		}
+	}
+	
+	func setID(id:String){
+		_id = id
+	}
+	
+	func getNode()-> SCNNode{
+		return _node
 	}
 	
 	func consume(_:JSON){
