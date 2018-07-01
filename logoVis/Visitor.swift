@@ -2,7 +2,7 @@ import UIKit
 import JavaScriptCore
 import WebKit
 
-class Helper{
+private class Helper{
 	static func mult(vals:[Float]) -> Float {
 		var num:Float = 1.0
 		for val in vals {
@@ -62,6 +62,15 @@ class Visitor {
 			else{
 				break
 			}
+		}
+	}
+	
+	func visitrpttargetsstmt(node:JSON){
+		let ch:[JSON] = node["children"] as! [JSON]
+		let node = ch[0]
+		for target in _targets{
+			_symTable.setPlayer(player: target)
+			visitNode(node: node)
 		}
 	}
 	
@@ -163,9 +172,43 @@ class Visitor {
 		}
 	}
 	
+	func getPatchVar(name:String) -> Float{
+		let player:PScenePlayer = _symTable.getPlayer()
+		let pos:CGPoint = player.getPos()
+		let i:Int = Int(pos.x)
+		let patch:Patch = _patches[i]
+		return patch.getVar(name:name)
+	};
+	
+	func setPatchVar(name:String, val:Float){
+		let player:PScenePlayer = _symTable.getPlayer()
+		let pos:CGPoint = player.getPos()
+		let i:Int = Int(pos.x)
+		let patch:Patch = _patches[i]
+		patch.setVar(name: name, val: val)
+	};
+	
 	func visitgetvarstmt(node:JSON){
-		//target = symTable.getTarget();
-		//stack.push(target.getVar(node.name));
+		let player:PScenePlayer = _symTable.getPlayer()
+		let val = player.getVar(name: node["name"] as! String)
+		_stack.push(val)
+	}
+	
+	func visitsetvarstmt(node:JSON){
+		visitchildren(node:node)
+		let player = _symTable.getPlayer()
+		let val:Float = _stack.pop()!
+		player.setVar(name: node["name"] as! String, val: val)
+	}
+	
+	func visitsetpatchvarstmt(node:JSON){
+		visitchildren(node:node)
+		let val:Float = _stack.pop()!
+		setPatchVar(name: node["name"] as! String, val:val)
+	}
+	
+	func visitgetpatchvarstmt(node:JSON){
+		_stack.push(getPatchVar(name: node["name"] as! String))
 	}
 	
 	func visitminusexpression(node:JSON){
@@ -182,7 +225,7 @@ class Visitor {
 	func visittimesordivterms(node:JSON){
 		visitchildren(node:node)
 		let vals = _stack.popForChildren(node:node)
-		_stack.push(Helper.mult(vals: vals));
+		_stack.push(Helper.mult(vals: vals))
 	}
 	
 	func visitfdstmt(node:JSON){
@@ -214,6 +257,10 @@ class Visitor {
 		let amount1 = _stack.pop()!
 		let amount2 = _stack.pop()!
 		print("ARCRT:", "radius", amount1, "angle", amount2)
+	}
+	
+	func visitactivatedaemonstmt(node:JSON){
+		_symTable.activateDaemon(name: node["name"] as! String)
 	}
 	
 	func visitarcltstmt(node:JSON){
@@ -284,7 +331,7 @@ class Visitor {
 			return visitrptstmt(node:node)
 		}
 		else if(t=="rpttargetsstmt"){
-			//return visitrpttargetsstmt(node)
+			return visitrpttargetsstmt(node: node)
 		}
 		else if(t=="makestmt"){
 			return visitmakestmt(node:node)
@@ -365,7 +412,7 @@ class Visitor {
 			return visitgetvarstmt(node:node)
 		}
 		else if(t=="getpatchvarstmt"){
-			//return visitgetpatchvarstmt(node)
+			return visitgetpatchvarstmt(node: node)
 		}
 		else if(t=="usevar"){
 			return visitusevar(node:node)
@@ -389,13 +436,13 @@ class Visitor {
 			//return visitlabelstmt(node)
 		}
 		else if(t=="activatedaemonstmt"){
-			//return visitactivatedaemonstmt(node)
+			return visitactivatedaemonstmt(node: node)
 		}
 		else if(t=="setvarstmt"){
-			//return visitsetvarstmt(node)
+			return visitsetvarstmt(node: node)
 		}
 		else if(t=="setpatchvarstmt"){
-			//return visitsetpatchvarstmt(node)
+			return visitsetpatchvarstmt(node: node)
 		}
 	}
 	
@@ -412,7 +459,7 @@ class Visitor {
 		for target:Target in _targets {
 			if (isActive!()) {
 				_symTable.setPlayer(player:target)
-				executeFunctions(fs: _symTable.getSetupForType(type: target.getType()))
+				executeFunctions(fs: _symTable.getSetupsForType(type: target.getType()))
 			}
 		}
 	}
@@ -421,7 +468,7 @@ class Visitor {
 		for patch:Patch in _patches {
 			if (isActive!()) {
 				_symTable.setPlayer(player:patch)
-				executeFunctions(fs: _symTable.getSetupForType(type:"patch"))
+				executeFunctions(fs: _symTable.getSetupsForType(type:"patch"))
 			}
 		}
 	}
@@ -434,8 +481,8 @@ class Visitor {
 		if let receive = self.receive {
 			receive("done", 0)
 		}
-		setupPatches();
-		setupTargets();
+		setupPatches()
+		setupTargets()
 		//runDaemons();
 	}
 	

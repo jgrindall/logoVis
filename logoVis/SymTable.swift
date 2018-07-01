@@ -2,58 +2,35 @@ import UIKit
 import JavaScriptCore
 import WebKit
 
-class Block {
+private class Helper{
 
-	private var _hash: [String:Float] = [:]
-	
-	func add(s:String, v: Float) {
-		_hash[s] = v
+	static func getPlayerName(name:String) -> String{
+		let subs:[Substring] = name.split(separator: "-")
+		return String(subs[1])
 	}
 	
-	func exists(s:String) -> Bool{
-		return (_hash[s] != nil)
+	static func getType(name:String) -> String{
+		let subs:[Substring] = name.split(separator: "-")
+		return String(subs[0])
 	}
-	
-	func get(s:String) -> Float? {
-		return _hash[s]
-	}
-}
 
-class LogoFunction {
-	
-	private var _name:String
-	private var _argsNode:JSON
-	private var _statementsNode:JSON
-	
-	init(name:String, argsNode:JSON, statementsNode:JSON){
-		_name = name
-		_argsNode = argsNode
-		_statementsNode = statementsNode
-	}
-	
-	func getArgs() -> JSON{
-		return _argsNode
-	}
-	
-	func getNumArgsRequired() -> Int{
-		let ch:[JSON] = _argsNode["children"] as! [JSON]
-		return ch.count
-	}
-	
-	func getStatements() -> JSON{
-		return _statementsNode
-	}
 }
 
 class SymTable {
 	
 	private var _blocks:[Block]
-	private var _functions:[String:LogoFunction]
+	private var _functions:LogoFunctionDict
 	private var _currentPlayer:PScenePlayer?
+	private var _setups:[String:LogoFunctionDict]
+	private var _daemons:[String:LogoFunctionDict]
+	private var _activeDaemons:[String:LogoFunctionDict]
 	
 	init(){
 		_blocks = []
 		_functions = [:]
+		_setups = [:]
+		_daemons = [:]
+		_activeDaemons = [:]
 	}
 	
 	func enterBlock(){
@@ -73,8 +50,8 @@ class SymTable {
 		_currentPlayer = player
 	}
 	
-	func getSetupForType(type:String)->[LogoFunction]{
-		return []
+	func getPlayer()->PScenePlayer{
+		return _currentPlayer!
 	}
 	
 	func get(name:String)->Float?{
@@ -106,8 +83,73 @@ class SymTable {
 		return _functions[s]
 	}
 	
+	func addToActiveDaemon(name:String, fn:LogoFunction){
+		if var daemonList = _activeDaemons[name] {
+			daemonList[name] = fn
+		}
+		else{
+			_activeDaemons[name] = [name:fn]
+		}
+	}
+	
+	func addToSetups(name:String, fn:LogoFunction){
+		if var setupList = _setups[name] {
+			setupList[name] = fn
+		}
+		else{
+			_setups[name] = [name:fn]
+		}
+	}
+	
+	func addToDaemon(name:String, fn:LogoFunction){
+		if var daemonList = _daemons[name] {
+			daemonList[name] = fn
+		}
+		else{
+			_daemons[name] = [name:fn]
+		}
+	}
+	
+	func activateDaemon(name:String){
+		let playerName:String = Helper.getPlayerName(name:name)
+		let daemonList:LogoFunctionDict = _daemons[playerName]!
+		if let fn:LogoFunction = daemonList[name] {
+			addToActiveDaemon(name: name, fn: fn)
+		}
+	}
+		
+	func getSetupsForType(type:String) -> [LogoFunction]{
+		if let setupList:LogoFunctionDict = _setups[type] {
+			return Array(setupList.values)
+		}
+		return []
+	}
+	
+	func getDaemonsForType(type:String) -> [LogoFunction]{
+		if let daemonList:LogoFunctionDict = _daemons[type] {
+			return Array(daemonList.values)
+		}
+		return []
+	}
+	
+	func getActiveDaemonsForType(type:String) -> [LogoFunction]{
+		if let daemonList:LogoFunctionDict = _activeDaemons[type] {
+			return Array(daemonList.values)
+		}
+		return []
+	}
+
 	func addFunction(name:String, argsNode:JSON, statementsNode:JSON){
-		_functions[name] = LogoFunction(name: name, argsNode: argsNode, statementsNode: statementsNode)
+		let fn = LogoFunction(name: name, argsNode: argsNode, statementsNode: statementsNode)
+		let playerName:String = Helper.getPlayerName(name:name)
+		_functions[name] = fn
+		if(Helper.getType(name:name) == "setup"){
+			addToSetups(name:playerName, fn:fn)
+		}
+		else if(Helper.getType(name:name) == "daemon"){
+			addToDaemon(name:playerName, fn:fn)
+		}
 	}
 
 }
+

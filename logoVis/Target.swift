@@ -5,9 +5,9 @@ import WebKit
 
 class Target:PScenePlayer{
 	
-	var pos:CGPoint
-	var vars:JSON
-	var type:String
+	private var pos:CGPoint
+	private var vars:JSON
+	private var type:String
 	
 	init(){
 		pos = CGPoint(x: 0.0, y: 0.0)
@@ -35,6 +35,10 @@ class Target:PScenePlayer{
 		}
 		}
 		*/
+	}
+	
+	func getPos() -> CGPoint{
+		return pos
 	}
 	
 	func setVar(name:String, val:Float){

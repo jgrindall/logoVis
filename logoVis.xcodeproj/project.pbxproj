@@ -27,6 +27,8 @@
 		52B559D720E906D300B1DDF3 /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B559D620E906D300B1DDF3 /* JSON.swift */; };
 		52B559D920E9096000B1DDF3 /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B559D820E9096000B1DDF3 /* Stack.swift */; };
 		52B559DB20E911AA00B1DDF3 /* PScenePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B559DA20E911AA00B1DDF3 /* PScenePlayer.swift */; };
+		52B559DE20E919E700B1DDF3 /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B559DC20E919E600B1DDF3 /* Block.swift */; };
+		52B559DF20E919E700B1DDF3 /* LogoFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B559DD20E919E600B1DDF3 /* LogoFunction.swift */; };
 		52E6391120DD7A210015FC3D /* SymTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E6391020DD7A210015FC3D /* SymTable.swift */; };
 /* End PBXBuildFile section */
 
@@ -54,6 +56,8 @@
 		52B559D620E906D300B1DDF3 /* JSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSON.swift; sourceTree = "<group>"; };
 		52B559D820E9096000B1DDF3 /* Stack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stack.swift; sourceTree = "<group>"; };
 		52B559DA20E911AA00B1DDF3 /* PScenePlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PScenePlayer.swift; sourceTree = "<group>"; };
+		52B559DC20E919E600B1DDF3 /* Block.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Block.swift; sourceTree = "<group>"; };
+		52B559DD20E919E600B1DDF3 /* LogoFunction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogoFunction.swift; sourceTree = "<group>"; };
 		52E6391020DD7A210015FC3D /* SymTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SymTable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -91,6 +95,8 @@
 		5216A89320D679AA00979360 /* logoVis */ = {
 			isa = PBXGroup;
 			children = (
+				52B559DC20E919E600B1DDF3 /* Block.swift */,
+				52B559DD20E919E600B1DDF3 /* LogoFunction.swift */,
 				52B559DA20E911AA00B1DDF3 /* PScenePlayer.swift */,
 				52B559D820E9096000B1DDF3 /* Stack.swift */,
 				52B559D620E906D300B1DDF3 /* JSON.swift */,
@@ -250,6 +256,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				523000E620E175910021693B /* AppReducer.swift in Sources */,
+				52B559DE20E919E700B1DDF3 /* Block.swift in Sources */,
+				52B559DF20E919E700B1DDF3 /* LogoFunction.swift in Sources */,
 				52B559D720E906D300B1DDF3 /* JSON.swift in Sources */,
 				52B559DB20E911AA00B1DDF3 /* PScenePlayer.swift in Sources */,
 				528BB01820DE4724005802A1 /* Program.swift in Sources */,
