@@ -7,13 +7,21 @@ import ReSwift
 
 import ReSwift
 
-struct MyState: StateType {
+struct RunningState: StateType {
 	var s: String
-	init(s: String = "home") {
+	init(s: String = "stopped") {
+		self.s = s
+	}
+}
+
+struct ScriptState: StateType {
+	var s: String
+	init(s: String = "") {
 		self.s = s
 	}
 }
 
 struct AppState: StateType {
-	let routingState: MyState
+	let runningState: RunningState
+	let scriptState: ScriptState
 }

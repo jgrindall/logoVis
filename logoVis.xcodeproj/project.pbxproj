@@ -15,7 +15,7 @@
 		5216A8B720D679EF00979360 /* Parser.js in Resources */ = {isa = PBXBuildFile; fileRef = 5216A8AD20D679EF00979360 /* Parser.js */; };
 		5216A8BD20D67C7B00979360 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5216A8BC20D67C7B00979360 /* JavaScriptCore.framework */; };
 		523000E620E175910021693B /* AppReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523000D720E175910021693B /* AppReducer.swift */; };
-		523000F220E175910021693B /* StatusAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523000E520E175910021693B /* StatusAction.swift */; };
+		523000F220E175910021693B /* SetStatusAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523000E520E175910021693B /* SetStatusAction.swift */; };
 		523000F420E177CB0021693B /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523000F320E177CB0021693B /* AppState.swift */; };
 		5248444420DEAFB6007A7545 /* SceneKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5248444320DEAFB6007A7545 /* SceneKit.framework */; };
 		5248444620DEC0CA007A7545 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 5248444520DEC0CA007A7545 /* index.html */; };
@@ -32,6 +32,8 @@
 		52B559F220E9326000B1DDF3 /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B559F120E9326000B1DDF3 /* Block.swift */; };
 		52B559F420E96C0700B1DDF3 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B559F320E96C0700B1DDF3 /* GameViewController.swift */; };
 		52B559F620E96C9900B1DDF3 /* ControlsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B559F520E96C9900B1DDF3 /* ControlsViewController.swift */; };
+		52D4D15520EC1D8F00F36063 /* SetScriptAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D4D15420EC1D8F00F36063 /* SetScriptAction.swift */; };
+		52D4D15720EC1E5A00F36063 /* BlockSubscriber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D4D15620EC1E5A00F36063 /* BlockSubscriber.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,7 +48,7 @@
 		5216A8BC20D67C7B00979360 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		5216A8BE20D68AF600979360 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		523000D720E175910021693B /* AppReducer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppReducer.swift; sourceTree = "<group>"; };
-		523000E520E175910021693B /* StatusAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusAction.swift; sourceTree = "<group>"; };
+		523000E520E175910021693B /* SetStatusAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetStatusAction.swift; sourceTree = "<group>"; };
 		523000F320E177CB0021693B /* AppState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		5248444320DEAFB6007A7545 /* SceneKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SceneKit.framework; path = System/Library/Frameworks/SceneKit.framework; sourceTree = SDKROOT; };
 		5248444520DEC0CA007A7545 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
@@ -63,6 +65,8 @@
 		52B559F120E9326000B1DDF3 /* Block.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Block.swift; path = logoVis/code/Block.swift; sourceTree = SOURCE_ROOT; };
 		52B559F320E96C0700B1DDF3 /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		52B559F520E96C9900B1DDF3 /* ControlsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlsViewController.swift; sourceTree = "<group>"; };
+		52D4D15420EC1D8F00F36063 /* SetScriptAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetScriptAction.swift; sourceTree = "<group>"; };
+		52D4D15620EC1E5A00F36063 /* BlockSubscriber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockSubscriber.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +117,7 @@
 				5216A89B20D679AA00979360 /* Assets.xcassets */,
 				5216A89D20D679AA00979360 /* LaunchScreen.storyboard */,
 				5216A8A020D679AA00979360 /* Info.plist */,
+				52D4D15620EC1E5A00F36063 /* BlockSubscriber.swift */,
 			);
 			path = logoVis;
 			sourceTree = "<group>";
@@ -156,7 +161,8 @@
 		523000E020E175910021693B /* actions */ = {
 			isa = PBXGroup;
 			children = (
-				523000E520E175910021693B /* StatusAction.swift */,
+				52D4D15420EC1D8F00F36063 /* SetScriptAction.swift */,
+				523000E520E175910021693B /* SetStatusAction.swift */,
 			);
 			path = actions;
 			sourceTree = "<group>";
@@ -273,16 +279,18 @@
 				52B559F620E96C9900B1DDF3 /* ControlsViewController.swift in Sources */,
 				523000E620E175910021693B /* AppReducer.swift in Sources */,
 				52B559F220E9326000B1DDF3 /* Block.swift in Sources */,
+				52D4D15520EC1D8F00F36063 /* SetScriptAction.swift in Sources */,
 				52B559EC20E9323A00B1DDF3 /* SymTable.swift in Sources */,
 				52B559D720E906D300B1DDF3 /* JSON.swift in Sources */,
 				52B559EF20E9323A00B1DDF3 /* PScenePlayer.swift in Sources */,
 				52B559F020E9323A00B1DDF3 /* Target.swift in Sources */,
+				52D4D15720EC1E5A00F36063 /* BlockSubscriber.swift in Sources */,
 				523000F420E177CB0021693B /* AppState.swift in Sources */,
 				52B559EA20E9323A00B1DDF3 /* Program.swift in Sources */,
 				52B559E920E9323A00B1DDF3 /* Visitor.swift in Sources */,
 				52B559EB20E9323A00B1DDF3 /* Stack.swift in Sources */,
 				52B559ED20E9323A00B1DDF3 /* LogoFunction.swift in Sources */,
-				523000F220E175910021693B /* StatusAction.swift in Sources */,
+				523000F220E175910021693B /* SetStatusAction.swift in Sources */,
 				52B559F420E96C0700B1DDF3 /* GameViewController.swift in Sources */,
 				5216A89720D679AA00979360 /* ViewController.swift in Sources */,
 				52B559EE20E9323A00B1DDF3 /* Patch.swift in Sources */,

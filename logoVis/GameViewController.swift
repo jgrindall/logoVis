@@ -6,30 +6,43 @@ import ReSwift
 
 class GameViewController: UIViewController, UIWebViewDelegate, SCNSceneRendererDelegate {
 
-	private var webView:UIWebView
+	private var webView:UIWebView?
 	private var sceneView: SCNView?
 	private var prog:Program?
 	private var _targets:[Target]
 	private var _patches:[Patch]
 	private var _nodes:[SCNNode]
 	
+	private lazy var state1Subscriber: BlockSubscriber<RunningState> = BlockSubscriber<RunningState>(block: { runningState in
+		print("game run", runningState)
+		let s:String = store.state.scriptState.s
+		if(runningState.s == "running"){
+			self.run(fnName:"draw", arg:s)
+		}
+		else{
+			self.prog?.cancel()
+		}
+	})
+
 	required init(frame:CGRect){
-		self.webView = UIWebView(frame: CGRect(x: 0, y: 0, width: 0, height:0))
-		self.view.frame = frame
 		self._targets = []
 		self._patches = []
 		self._nodes = []
 		super.init(nibName: nil, bundle: nil)
+		self.view.frame = frame
 		
 	}
 	
 	required init(coder:NSCoder){
+		self._targets = []
+		self._patches = []
+		self._nodes = []
 		super.init(coder: coder)!
 	}
 	
 	override func viewWillDisappear(_ animated: Bool) {
 		super.viewWillDisappear(animated)
-		store.unsubscribe(self)
+		store.unsubscribe(self.state1Subscriber)
 	}
 	
 	override func viewDidLoad() {
@@ -38,7 +51,9 @@ class GameViewController: UIViewController, UIWebViewDelegate, SCNSceneRendererD
 		initWeb()
 		initTargets()
 		initPatches()
-		store.subscribe(self) { $0.select { state in state.routingState } }
+		store.subscribe(self.state1Subscriber) { state in
+			state.select { state in state.runningState }
+		}
 	}
 	
 	func initTargets(){
@@ -103,7 +118,7 @@ class GameViewController: UIViewController, UIWebViewDelegate, SCNSceneRendererD
 	}
 	
 	private func _eval(s:String){
-		self.webView.stringByEvaluatingJavaScript(from: s)
+		self.webView?.stringByEvaluatingJavaScript(from: s)
 	}
 	
 	public func run(fnName:String) {
@@ -123,7 +138,7 @@ class GameViewController: UIViewController, UIWebViewDelegate, SCNSceneRendererD
 	}
 	
 	func webViewDidFinishLoad(_ webView: UIWebView){
-		let ctx:JSContext = (self.webView.value(forKeyPath: "documentView.webView.mainFrame.javaScriptContext") as? JSContext)!
+		let ctx:JSContext = (self.webView!.value(forKeyPath: "documentView.webView.mainFrame.javaScriptContext") as? JSContext)!
 		let logFunction: @convention(block) (String) -> Void = { (msg: String) in
 			print("output:", msg)
 		}
@@ -147,12 +162,13 @@ class GameViewController: UIViewController, UIWebViewDelegate, SCNSceneRendererD
 	}
 	
 	func initUIWeb(){
+		self.webView = UIWebView(frame: CGRect(x: 0, y: 0, width: 0, height:0))
 		do {
-			self.webView.delegate = self
+			self.webView?.delegate = self
 			let htmlPath:String = Bundle.main.path(forResource: "index", ofType: "html")!
 			let contents:String = try String(contentsOfFile: htmlPath)
 			let url:URL = URL(fileURLWithPath: htmlPath)
-			self.webView.loadHTMLString(contents, baseURL: url)
+			self.webView?.loadHTMLString(contents, baseURL: url)
 		}
 		catch (_) {
 			print("Error while loading")
@@ -171,12 +187,3 @@ class GameViewController: UIViewController, UIWebViewDelegate, SCNSceneRendererD
 }
 
 
-extension GameViewController: StoreSubscriber {
-	typealias StoreSubscriberStateType = MyState
-	
-	func newState(state: MyState) {
-		print(state)
-	}
-}
-
-	

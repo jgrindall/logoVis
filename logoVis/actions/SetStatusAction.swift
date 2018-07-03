@@ -2,6 +2,7 @@
 import Foundation
 import ReSwift
 
-struct StatusAction: Action {
+struct SetStatusAction: Action {
 	let status: String
 }
+
