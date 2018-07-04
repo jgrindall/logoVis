@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		520ABC5A20ED6D9300FC8998 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520ABC5920ED6D9300FC8998 /* Extensions.swift */; };
+		520ABC6520ED72A600FC8998 /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520ABC5C20ED72A600FC8998 /* Block.swift */; };
+		520ABC6620ED72A600FC8998 /* LogoFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520ABC5D20ED72A600FC8998 /* LogoFunction.swift */; };
+		520ABC6720ED72A600FC8998 /* Patch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520ABC5E20ED72A600FC8998 /* Patch.swift */; };
+		520ABC6820ED72A600FC8998 /* Program.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520ABC5F20ED72A600FC8998 /* Program.swift */; };
+		520ABC6920ED72A600FC8998 /* PScenePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520ABC6020ED72A600FC8998 /* PScenePlayer.swift */; };
+		520ABC6A20ED72A600FC8998 /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520ABC6120ED72A600FC8998 /* Stack.swift */; };
+		520ABC6B20ED72A600FC8998 /* SymTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520ABC6220ED72A600FC8998 /* SymTable.swift */; };
+		520ABC6C20ED72A600FC8998 /* Target.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520ABC6320ED72A600FC8998 /* Target.swift */; };
+		520ABC6D20ED72A600FC8998 /* Visitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520ABC6420ED72A600FC8998 /* Visitor.swift */; };
 		5216A89520D679AA00979360 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5216A89420D679AA00979360 /* AppDelegate.swift */; };
 		5216A89720D679AA00979360 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5216A89620D679AA00979360 /* ViewController.swift */; };
 		5216A89A20D679AA00979360 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5216A89820D679AA00979360 /* Main.storyboard */; };
@@ -21,15 +31,6 @@
 		5248444620DEC0CA007A7545 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 5248444520DEC0CA007A7545 /* index.html */; };
 		5248444820DEC30F007A7545 /* ReSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5248444720DEC30F007A7545 /* ReSwift.framework */; };
 		52B559D720E906D300B1DDF3 /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B559D620E906D300B1DDF3 /* JSON.swift */; };
-		52B559E920E9323A00B1DDF3 /* Visitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B559E120E9323900B1DDF3 /* Visitor.swift */; };
-		52B559EA20E9323A00B1DDF3 /* Program.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B559E220E9323900B1DDF3 /* Program.swift */; };
-		52B559EB20E9323A00B1DDF3 /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B559E320E9323A00B1DDF3 /* Stack.swift */; };
-		52B559EC20E9323A00B1DDF3 /* SymTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B559E420E9323A00B1DDF3 /* SymTable.swift */; };
-		52B559ED20E9323A00B1DDF3 /* LogoFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B559E520E9323A00B1DDF3 /* LogoFunction.swift */; };
-		52B559EE20E9323A00B1DDF3 /* Patch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B559E620E9323A00B1DDF3 /* Patch.swift */; };
-		52B559EF20E9323A00B1DDF3 /* PScenePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B559E720E9323A00B1DDF3 /* PScenePlayer.swift */; };
-		52B559F020E9323A00B1DDF3 /* Target.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B559E820E9323A00B1DDF3 /* Target.swift */; };
-		52B559F220E9326000B1DDF3 /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B559F120E9326000B1DDF3 /* Block.swift */; };
 		52B559F420E96C0700B1DDF3 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B559F320E96C0700B1DDF3 /* GameViewController.swift */; };
 		52B559F620E96C9900B1DDF3 /* ControlsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B559F520E96C9900B1DDF3 /* ControlsViewController.swift */; };
 		52D4D15520EC1D8F00F36063 /* SetScriptAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D4D15420EC1D8F00F36063 /* SetScriptAction.swift */; };
@@ -37,6 +38,16 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		520ABC5920ED6D9300FC8998 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		520ABC5C20ED72A600FC8998 /* Block.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Block.swift; sourceTree = "<group>"; };
+		520ABC5D20ED72A600FC8998 /* LogoFunction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogoFunction.swift; sourceTree = "<group>"; };
+		520ABC5E20ED72A600FC8998 /* Patch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Patch.swift; sourceTree = "<group>"; };
+		520ABC5F20ED72A600FC8998 /* Program.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Program.swift; sourceTree = "<group>"; };
+		520ABC6020ED72A600FC8998 /* PScenePlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PScenePlayer.swift; sourceTree = "<group>"; };
+		520ABC6120ED72A600FC8998 /* Stack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stack.swift; sourceTree = "<group>"; };
+		520ABC6220ED72A600FC8998 /* SymTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SymTable.swift; sourceTree = "<group>"; };
+		520ABC6320ED72A600FC8998 /* Target.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Target.swift; sourceTree = "<group>"; };
+		520ABC6420ED72A600FC8998 /* Visitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Visitor.swift; sourceTree = "<group>"; };
 		5216A89120D679AA00979360 /* logoVis.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = logoVis.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5216A89420D679AA00979360 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5216A89620D679AA00979360 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -54,15 +65,6 @@
 		5248444520DEC0CA007A7545 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		5248444720DEC30F007A7545 /* ReSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReSwift.framework; path = Carthage/Build/iOS/ReSwift.framework; sourceTree = "<group>"; };
 		52B559D620E906D300B1DDF3 /* JSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSON.swift; sourceTree = "<group>"; };
-		52B559E120E9323900B1DDF3 /* Visitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Visitor.swift; path = logoVis/code/Visitor.swift; sourceTree = SOURCE_ROOT; };
-		52B559E220E9323900B1DDF3 /* Program.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Program.swift; path = logoVis/code/Program.swift; sourceTree = SOURCE_ROOT; };
-		52B559E320E9323A00B1DDF3 /* Stack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Stack.swift; path = logoVis/code/Stack.swift; sourceTree = SOURCE_ROOT; };
-		52B559E420E9323A00B1DDF3 /* SymTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SymTable.swift; path = logoVis/code/SymTable.swift; sourceTree = SOURCE_ROOT; };
-		52B559E520E9323A00B1DDF3 /* LogoFunction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LogoFunction.swift; path = logoVis/code/LogoFunction.swift; sourceTree = SOURCE_ROOT; };
-		52B559E620E9323A00B1DDF3 /* Patch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Patch.swift; path = logoVis/code/Patch.swift; sourceTree = SOURCE_ROOT; };
-		52B559E720E9323A00B1DDF3 /* PScenePlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PScenePlayer.swift; path = logoVis/code/PScenePlayer.swift; sourceTree = SOURCE_ROOT; };
-		52B559E820E9323A00B1DDF3 /* Target.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Target.swift; path = logoVis/code/Target.swift; sourceTree = SOURCE_ROOT; };
-		52B559F120E9326000B1DDF3 /* Block.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Block.swift; path = logoVis/code/Block.swift; sourceTree = SOURCE_ROOT; };
 		52B559F320E96C0700B1DDF3 /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		52B559F520E96C9900B1DDF3 /* ControlsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlsViewController.swift; sourceTree = "<group>"; };
 		52D4D15420EC1D8F00F36063 /* SetScriptAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetScriptAction.swift; sourceTree = "<group>"; };
@@ -83,6 +85,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		520ABC5B20ED72A600FC8998 /* code */ = {
+			isa = PBXGroup;
+			children = (
+				520ABC5C20ED72A600FC8998 /* Block.swift */,
+				520ABC5D20ED72A600FC8998 /* LogoFunction.swift */,
+				520ABC5E20ED72A600FC8998 /* Patch.swift */,
+				520ABC5F20ED72A600FC8998 /* Program.swift */,
+				520ABC6020ED72A600FC8998 /* PScenePlayer.swift */,
+				520ABC6120ED72A600FC8998 /* Stack.swift */,
+				520ABC6220ED72A600FC8998 /* SymTable.swift */,
+				520ABC6320ED72A600FC8998 /* Target.swift */,
+				520ABC6420ED72A600FC8998 /* Visitor.swift */,
+			);
+			name = code;
+			path = logoVis/code;
+			sourceTree = SOURCE_ROOT;
+		};
 		5216A88820D679AA00979360 = {
 			isa = PBXGroup;
 			children = (
@@ -103,7 +122,8 @@
 		5216A89320D679AA00979360 /* logoVis */ = {
 			isa = PBXGroup;
 			children = (
-				52B559E020E9321D00B1DDF3 /* code */,
+				520ABC5920ED6D9300FC8998 /* Extensions.swift */,
+				520ABC5B20ED72A600FC8998 /* code */,
 				52B559D620E906D300B1DDF3 /* JSON.swift */,
 				523000E020E175910021693B /* actions */,
 				523000D620E175910021693B /* reducers */,
@@ -165,23 +185,6 @@
 				523000E520E175910021693B /* SetStatusAction.swift */,
 			);
 			path = actions;
-			sourceTree = "<group>";
-		};
-		52B559E020E9321D00B1DDF3 /* code */ = {
-			isa = PBXGroup;
-			children = (
-				52B559F120E9326000B1DDF3 /* Block.swift */,
-				52B559E520E9323A00B1DDF3 /* LogoFunction.swift */,
-				52B559E620E9323A00B1DDF3 /* Patch.swift */,
-				52B559E220E9323900B1DDF3 /* Program.swift */,
-				52B559E720E9323A00B1DDF3 /* PScenePlayer.swift */,
-				52B559E320E9323A00B1DDF3 /* Stack.swift */,
-				52B559E420E9323A00B1DDF3 /* SymTable.swift */,
-				52B559E820E9323A00B1DDF3 /* Target.swift */,
-				52B559E120E9323900B1DDF3 /* Visitor.swift */,
-			);
-			name = code;
-			path = "New Group";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -278,22 +281,23 @@
 			files = (
 				52B559F620E96C9900B1DDF3 /* ControlsViewController.swift in Sources */,
 				523000E620E175910021693B /* AppReducer.swift in Sources */,
-				52B559F220E9326000B1DDF3 /* Block.swift in Sources */,
+				520ABC6C20ED72A600FC8998 /* Target.swift in Sources */,
+				520ABC6620ED72A600FC8998 /* LogoFunction.swift in Sources */,
+				520ABC6920ED72A600FC8998 /* PScenePlayer.swift in Sources */,
 				52D4D15520EC1D8F00F36063 /* SetScriptAction.swift in Sources */,
-				52B559EC20E9323A00B1DDF3 /* SymTable.swift in Sources */,
 				52B559D720E906D300B1DDF3 /* JSON.swift in Sources */,
-				52B559EF20E9323A00B1DDF3 /* PScenePlayer.swift in Sources */,
-				52B559F020E9323A00B1DDF3 /* Target.swift in Sources */,
+				520ABC6820ED72A600FC8998 /* Program.swift in Sources */,
 				52D4D15720EC1E5A00F36063 /* BlockSubscriber.swift in Sources */,
 				523000F420E177CB0021693B /* AppState.swift in Sources */,
-				52B559EA20E9323A00B1DDF3 /* Program.swift in Sources */,
-				52B559E920E9323A00B1DDF3 /* Visitor.swift in Sources */,
-				52B559EB20E9323A00B1DDF3 /* Stack.swift in Sources */,
-				52B559ED20E9323A00B1DDF3 /* LogoFunction.swift in Sources */,
+				520ABC6A20ED72A600FC8998 /* Stack.swift in Sources */,
 				523000F220E175910021693B /* SetStatusAction.swift in Sources */,
+				520ABC6520ED72A600FC8998 /* Block.swift in Sources */,
+				520ABC6D20ED72A600FC8998 /* Visitor.swift in Sources */,
+				520ABC5A20ED6D9300FC8998 /* Extensions.swift in Sources */,
 				52B559F420E96C0700B1DDF3 /* GameViewController.swift in Sources */,
+				520ABC6B20ED72A600FC8998 /* SymTable.swift in Sources */,
+				520ABC6720ED72A600FC8998 /* Patch.swift in Sources */,
 				5216A89720D679AA00979360 /* ViewController.swift in Sources */,
-				52B559EE20E9323A00B1DDF3 /* Patch.swift in Sources */,
 				5216A89520D679AA00979360 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -430,7 +434,7 @@
 		5216A8A420D679AA00979360 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WDBW628V64;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -450,7 +454,7 @@
 		5216A8A520D679AA00979360 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WDBW628V64;
 				FRAMEWORK_SEARCH_PATHS = (

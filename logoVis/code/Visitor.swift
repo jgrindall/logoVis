@@ -477,11 +477,15 @@ class Visitor {
 		}
 	}
 	
-	private func _runDaemons(){
-		var active = isActive!()
+	private func _updateCaches(){
 		_cache["robot"] = _symTable.getActiveDaemonsForType(type: "robot")
 		_cache["rabbit"] = _symTable.getActiveDaemonsForType(type: "rabbit")
 		_cache["patch"] = _symTable.getActiveDaemonsForType(type: "patch")
+	}
+	
+	private func _runDaemons(){
+		var active = isActive!()
+		_updateCaches()
 		while(active){
 			print("T")
 			_tick(players:_targets)

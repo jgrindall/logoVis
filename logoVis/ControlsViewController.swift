@@ -80,7 +80,7 @@ class ControlsViewController: UIViewController {
 		s = s + "to setup-robot set-var age 0 activate-daemon daemon-robot-walk end"
 		s = s + "to setup-patch set-var grass 0.3 activate-daemon daemon-patch-grow end"
 		s = s + "to daemon-robot-walk test rt 0.05 end"
-		s = s + "to daemon-rabbit-walk fd 0.02 rt 0.05 end"
+		s = s + "to daemon-rabbit-walk fd -0.02 rt 0.05 end"
 		s = s + "to daemon-rabbit-eat set-patch-var grass 0 end"
 		s = s + "to daemon-patch-grow set-var grass (get-var grass + 0.01) end"
 		store.dispatch(SetScriptAction(script: s))

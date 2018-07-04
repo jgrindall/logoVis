@@ -1,10 +1,5 @@
-//
-//  AppDelegate.swift
-//  logoVis
-//
-//  Created by John on 17/06/2018.
-//  Copyright © 2018 jgrindall. All rights reserved.
-//
+//https://appicon.co/
+
 
 import UIKit
 import ReSwift
